@@ -1,5 +1,9 @@
-<%= form_with(model: @user) do |form| %>
-  <%= form.collection_check_boxes :role_ids, Role.all, :id, :name %>
-  <%= @user.errors[:roles] %>
-  <%= form.submit %>
-<% end %>
+<h1>Editing user</h1>
+
+<%= render "form", user: @user %>
+<br>
+
+<div>
+  <%= link_to "Show this user", @user %> |
+  <%= link_to "Back to users", users_path %>
+</div>

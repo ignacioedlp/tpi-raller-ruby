@@ -1,8 +1,11 @@
-<% @users.each do |user| %>
-  <div>
-    <h2><%= user.username %></h2>
-    <p><%= user.email %></p>
-    <p><%= user.roles.pluck(:name) %></p>
-    <%= link_to 'Edit roles', edit_user_path(user)%>
-  </div>
-<% end %>
+<h1>Users</h1>
+
+<div id="users">
+  <% @users.each do |user| %>
+    <%= render user %>
+    <p>
+      <%= link_to "Show this user", user %>
+    </p>
+  <% end %>
+</div>
+

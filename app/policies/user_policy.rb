@@ -10,12 +10,19 @@ class UserPolicy < ApplicationPolicy
     @user.has_any_role? :admin, :operator
   end
 
-  def edit?
+  def show?
     @user.has_any_role? :admin, :operator
+  end
+
+  def destroy?
+    @user.has_role? :admin
+  end
+
+  def edit?
+    @user.has_any_role? :admin
   end
 
   def update?
     @user.has_role? :admin
   end
-
 end
