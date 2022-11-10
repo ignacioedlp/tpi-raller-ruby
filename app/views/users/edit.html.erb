@@ -1,6 +1,48 @@
 <h1>Editing user</h1>
 
-<%= render "form", user: @user %>
+<%= form_with(model: @user) do |form| %>
+  <% if  @user.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize( @user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+        <%  @user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <div class="field">
+    <%= form.label :email %><br />
+    <%= form.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+
+   <div class="field">
+    <%= form.label :username %><br />
+    <%= form.text_field :username, autocomplete: "username" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= form.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password_confirmation %><br />
+    <%= form.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <%= form.collection_check_boxes :role_ids, Role.all, :id, :name %>
+
+    <%= form.submit %>
+  </div>
+<% end %>
+
 <br>
 
 <div>

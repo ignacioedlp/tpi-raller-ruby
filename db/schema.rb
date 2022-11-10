@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_09_005354) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_10_030251) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "branch_offices", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "address", null: false
+    t.string "phone", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "opening_hours", force: :cascade do |t|
+    t.bigint "branch_office_id"
+    t.integer "day"
+    t.time "opens"
+    t.time "closes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["branch_office_id"], name: "index_opening_hours_on_branch_office_id"
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string "name"

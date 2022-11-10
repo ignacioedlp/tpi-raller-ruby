@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @branch_office %>
+
+<div>
+  <%= link_to "Edit this branch office", edit_branch_office_path(@branch_office) %> |
+  <%= link_to "Back to branch offices", branch_offices_path %>
+
+  <%= button_to "Destroy this branch office", @branch_office, method: :delete %>
+</div>

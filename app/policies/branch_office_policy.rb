@@ -1,4 +1,4 @@
-class UserPolicy < ApplicationPolicy
+class BranchOfficePolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
     def resolve
@@ -7,19 +7,11 @@ class UserPolicy < ApplicationPolicy
   end
 
   def index?
-    @user.has_any_role? :admin, :staff
+    @user.has_any_role? :admin, :staff, :client
   end
 
   def show?
-    @user.has_any_role? :admin, :staff
-  end
-
-  def new?
-    @user.has_any_role? :admin
-  end
-
-  def create?
-    @user.has_any_role? :admin
+    @user.has_any_role? :admin, :staff, :client
   end
 
   def destroy?
