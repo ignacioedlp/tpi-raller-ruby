@@ -25,6 +25,13 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <div class="field">
+      <%= f.label :branch_office_id %>
+      <%= f.select :branch_office_id, options_for_select(BranchOffice.all.map { |office| [office.name, office.id] }, @user.branch_office_id) %>
+    </div>
+
+  <%= f.collection_check_boxes :role_ids, Role.all, :id, :name %>
+
   <div class="actions">
     <%= f.submit "create" %>
   </div>

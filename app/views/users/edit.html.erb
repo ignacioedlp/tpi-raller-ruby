@@ -25,17 +25,9 @@
   </div>
 
   <div class="field">
-    <%= form.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= form.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :password_confirmation %><br />
-    <%= form.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+      <%= form.label :branch_office_id %>
+      <%= form.select :branch_office_id, options_for_select(BranchOffice.all.map { |office| [office.name, office.id] }, @user.branch_office_id) %>
+    </div>
 
   <%= form.collection_check_boxes :role_ids, Role.all, :id, :name %>
 

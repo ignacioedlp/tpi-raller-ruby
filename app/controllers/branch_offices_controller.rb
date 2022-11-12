@@ -4,25 +4,30 @@ class BranchOfficesController < ApplicationController
   # GET /branch_offices or /branch_offices.json
   def index
     @branch_offices = BranchOffice.all
+    authorize @branch_offices
   end
 
   # GET /branch_offices/1 or /branch_offices/1.json
   def show
     @opening_hours = OpeningHour.days_with_index_and_name_and_opens_and_closes(@branch_office)
+    authorize @branch_office
   end
 
   # GET /branch_offices/new
   def new
     @branch_office = BranchOffice.new
+    authorize @branch_office
   end
 
   # GET /branch_offices/1/edit
   def edit
+    authorize @branch_office
   end
 
   # POST /branch_offices or /branch_offices.json
   def create
     @branch_office = BranchOffice.new(branch_office_params)
+    authorize @branch_office
 
     respond_to do |format|
       if @branch_office.save
@@ -37,6 +42,8 @@ class BranchOfficesController < ApplicationController
 
   # PATCH/PUT /branch_offices/1 or /branch_offices/1.json
   def update
+    authorize @branch_office
+
     respond_to do |format|
       if @branch_office.update(branch_office_params)
         format.html { redirect_to branch_office_url(@branch_office), notice: "Branch office was successfully updated." }
@@ -51,7 +58,8 @@ class BranchOfficesController < ApplicationController
   # DELETE /branch_offices/1 or /branch_offices/1.json
   def destroy
     @branch_office.destroy
-
+    authorize @branch_office
+    
     respond_to do |format|
       format.html { redirect_to branch_offices_url, notice: "Branch office was successfully destroyed." }
       format.json { head :no_content }
@@ -66,6 +74,6 @@ class BranchOfficesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def branch_office_params
-      params.fetch(:branch_office, {})
+      params.require(:branch_office).permit(:name, :address, :phone)
     end
 end

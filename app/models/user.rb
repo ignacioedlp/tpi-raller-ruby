@@ -5,6 +5,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :validatable
 
+  # El usuario puede tener varios shifts
+  has_many :shifts, dependent: :destroy
+  belongs_to :branch_office, optional: true
+
+
   attr_writer :login
 
   after_create :assign_default_role

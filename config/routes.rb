@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :shifts
   resources :opening_hours
   resources :branch_offices
   # add prefix to route users 

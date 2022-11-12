@@ -1,0 +1,46 @@
+<%= form_with(model: shift) do |form| %>
+  <% if shift.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(shift.errors.count, "error") %> prohibited this shift from being saved:</h2>
+
+      <ul>
+        <% shift.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :day %><br />
+    <%= form.select :day, @days  %>
+  </div>
+
+  <div class="field">
+    <%= form.label :hour %>
+    <%= form.time_select :hour, minute_step: 15 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :reason %>
+    <%= form.text_field :reason %>
+
+
+
+  <div class="field">
+    <%= form.label :branch_office_id %>
+    <%= form.select :branch_office_id, options_for_select(BranchOffice.all.map { |office| [office.name, office.id] }, shift.branch_office_id) %>
+  </div>
+
+  <%# Agregar un select para cambiar el status %>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.select :status, options_for_select(["Pendiente" , "En tramite", "Aprobado", "Rechazado"], shift.status) %>
+  </div>
+
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

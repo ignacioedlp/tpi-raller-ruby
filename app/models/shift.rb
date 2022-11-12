@@ -1,0 +1,6 @@
+class Shift < ApplicationRecord
+
+
+  
+
+end
