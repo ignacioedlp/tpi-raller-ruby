@@ -36,7 +36,7 @@
 
   <div class="field">
     <%= form.label :status %>
-    <%= form.select :status, options_for_select(["Pendiente" , "En tramite", "Aprobado", "Rechazado"], shift.status) %>
+    <%= form.select :status, options_for_select(Shift::STATUSES, shift.status) %>
   </div>
 
 

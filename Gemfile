@@ -39,6 +39,10 @@ gem "pundit"
 # Linter
 gem "standard"
 
+gem 'activeadmin'
+
+gem 'sass-rails'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
@@ -55,6 +59,8 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "bootsnap", require: false
 
 gem "dotenv-rails", groups: [:development, :test]
+
+
 
 # Use Sass to process CSS
 # gem "sassc-rails"

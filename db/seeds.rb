@@ -11,19 +11,28 @@ puts "Loading seeds"
 if User.count == 0
   puts "Creating users admin, staff and client"
 
-  users = User.create(
-    [
-      {username: "admin", email: "admin@tpi.com", password: "p4ssw0rd", password_confirmation: "p4ssw0rd"},
-      {username: "staff", email: "staff@tpi.com", password: "p4ssw0rd", password_confirmation: "p4ssw0rd"},
+  branch_office = BranchOffice.new({name: "Sucursal 1", address: "Calle falsa 123", phone: "12345678"})
+
+  branch_office.save!
+
+  admin = AdminUser.new({username: "superadmin", email: "superadmin@tpi.com", password: "p4ssw0rd", password_confirmation: "p4ssw0rd", branch_office_id: branch_office.id})
+
+  admin.add_role :admin
+  admin.save!
+
+  operador_bancario = AdminUser.new({username: "operador", email: "operador@tpi.com", password: "p4ssw0rd", password_confirmation: "p4ssw0rd", branch_office_id: branch_office.id})
+
+  operador_bancario.save!
+
+  user = User.new(
+    
       {username: "client", email: "client@tpi.com", password: "p4ssw0rd", password_confirmation: "p4ssw0rd"}
-    ]
+    
   )
+  
+  user.save!
 
   puts "Adding roles admin, staff"
-
-  users[0].add_role(:admin)
-  users[0].add_role(:staff)
-  users[1].add_role(:staff)
 
 else
   puts "Users already created"

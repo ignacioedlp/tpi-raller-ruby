@@ -1,27 +1,24 @@
 class ShiftsController < ApplicationController
   before_action :set_shift, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /shifts or /shifts.json
   def index
     @shifts = Shift.all
-    authorize @shifts
   end
 
   # GET /shifts/1 or /shifts/1.json
   def show
-    authorize @shift
   end
 
   # GET /shifts/new
   def new
     @shift = Shift.new
-    authorize @shift
     @days = { "Lunes" => 0, "Martes" => 1, "Miércoles" => 2, "Jueves" => 3, "Viernes" => 4, "Sábado" => 5, "Domingo" => 6 }
   end
 
   # GET /shifts/1/edit
   def edit
-    authorize @shift
     @days = { "Lunes" => 0, "Martes" => 1, "Miércoles" => 2, "Jueves" => 3, "Viernes" => 4, "Sábado" => 5, "Domingo" => 6 }
   end
 
@@ -31,9 +28,6 @@ class ShiftsController < ApplicationController
     params[:shift][:user_id] = current_user.id
     params[:shift][:day] = params[:shift][:day].to_i 
     @shift = Shift.new(shift_params)
-    authorize @shift
-
-
     respond_to do |format|
       if @shift.save
         format.html { redirect_to shift_url(@shift), notice: "Shift was successfully created." }
@@ -47,7 +41,6 @@ class ShiftsController < ApplicationController
 
   # PATCH/PUT /shifts/1 or /shifts/1.json
   def update
-    authorize @shift
 
     params[:shift][:day] = params[:shift][:day].to_i 
     respond_to do |format|
@@ -64,7 +57,6 @@ class ShiftsController < ApplicationController
   # DELETE /shifts/1 or /shifts/1.json
   def destroy
     @shift.destroy
-    authorize @shift
 
     respond_to do |format|
       format.html { redirect_to shifts_url, notice: "Shift was successfully destroyed." }
