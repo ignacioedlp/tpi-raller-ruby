@@ -27,8 +27,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_10_030251) do
     t.integer "day"
     t.time "opens"
     t.time "closes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["branch_office_id"], name: "index_opening_hours_on_branch_office_id"
   end
 

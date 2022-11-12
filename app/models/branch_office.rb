@@ -1,3 +1,3 @@
-class BranchOffice < ApplicationRecord
-  belongs_to :branch_office, inverse_of: :opening_hours
+class BranchOffice < ApplicationRecord  
+  has_many :opening_hours, dependent: :destroy, inverse_of: :branch_office, autosave: true
 end

@@ -12,6 +12,32 @@
   <% end %>
 
   <div>
+    <%= form.label :day %><br />
+    <%= form.select :day, @days  %>
+  </div>
+
+  <div>
+    <%= form.label :opens %><br>
+    <%= form.time_field :opens,
+      value: "%H:%M",
+      min: 'hh:mm:ss',
+      max: 'hh:mm:ss'%>
+  </div>
+
+  <div>
+    <%= form.label :closes %><br>
+    <%=
+      form.time_field :closes,
+        value: "%H:%M",
+        min: 'hh:mm:ss',
+        max: 'hh:mm:ss'
+    %>
+  </div>
+
+  <div>
+    <%= form.label :branch_office_id %><br />
+    <%= form.select :branch_office_id, BranchOffice.all.map { |b| [b.name, b.id] } %>
+  <div>
     <%= form.submit %>
   </div>
 <% end %>

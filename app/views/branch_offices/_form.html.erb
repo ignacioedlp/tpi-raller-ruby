@@ -12,6 +12,21 @@
   <% end %>
 
   <div>
+    <%= form.label :name %><br />
+    <%= form.text_field :name, autocomplete: "name" %>
+  </div>
+
+  <div>
+    <%= form.label :address %><br />
+    <%= form.text_field :address, autocomplete: "address" %>
+  </div>
+
+  <div>
+    <%= form.label :phone %><br />
+    <%= form.text_field :phone, autocomplete: "phone" %>
+  </div>
+
+  <div>
     <%= form.submit %>
   </div>
 <% end %>

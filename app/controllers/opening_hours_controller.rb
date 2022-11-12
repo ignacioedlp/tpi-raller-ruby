@@ -13,6 +13,7 @@ class OpeningHoursController < ApplicationController
   # GET /opening_hours/new
   def new
     @opening_hour = OpeningHour.new
+    @days = { "Lunes" => 0, "Martes" => 1, "Miércoles" => 2, "Jueves" => 3, "Viernes" => 4, "Sábado" => 5, "Domingo" => 6 }
   end
 
   # GET /opening_hours/1/edit
@@ -21,7 +22,12 @@ class OpeningHoursController < ApplicationController
 
   # POST /opening_hours or /opening_hours.json
   def create
-    @opening_hour = OpeningHour.new(opening_hour_params)
+    debugger
+    # quiero que el day sea un integer y no un string antes de crear el opening_hour
+    
+    
+    
+    @opening_hour = OpeningHour.new()
 
     respond_to do |format|
       if @opening_hour.save
@@ -65,6 +71,6 @@ class OpeningHoursController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def opening_hour_params
-      params.fetch(:opening_hour, {})
+      params.require(:opening_hour).permit(:day, :opens, :closes, :branch_office_id)
     end
 end

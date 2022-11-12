@@ -8,6 +8,7 @@ class BranchOfficesController < ApplicationController
 
   # GET /branch_offices/1 or /branch_offices/1.json
   def show
+    @opening_hours = OpeningHour.days_with_index_and_name_and_opens_and_closes(@branch_office)
   end
 
   # GET /branch_offices/new

@@ -1,2 +1,26 @@
 <div id="<%= dom_id branch_office %>">
+  <h2><%= branch_office.name %></h2>
+  <p><%= branch_office.address %></p>
+  <p><%= branch_office.phone %></p>
+
+  <h1>Opening hours</h1>
+  <div id="opening_hours">
+    <% branch_office.opening_hours.each do |opening_hour| %>
+      <div id="<%= dom_id opening_hour %>">
+        <p><%= opening_hour.day %></p>
+        <p><%= opening_hour&.opens&.strftime("%H:%M") %></p>
+        <p><%= opening_hour&.closes&.strftime("%H:%M") %></p>
+      </div>
+      <p>
+        <%= link_to "Show this opening hour", opening_hour %>
+      </p>
+    <% end %>
+    <% OpeningHour.days_with_index_and_name_and_opens_and_closes(branch_office).each do |day| %>
+        <div>
+          <p><%= day[:name] %></p>
+          <p><%= day[:opens] %></p>
+          <p><%= day[:closes] %></p>
+        </div>
+      <% end %>
+  
 </div>
