@@ -1,14 +1,19 @@
-class User < ApplicationRecord
-
+class AdminUser < ApplicationRecord
+  rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, 
+         :recoverable, :rememberable, :validatable
 
-  # El usuario puede tener varios shifts
+  belongs_to :branch_office
   has_many :shifts, dependent: :destroy
 
+
   attr_writer :login
+
+  after_create :assign_default_role
+
+  validate :must_have_a_role, on: :update
 
   def login
     @login || username || email
@@ -21,5 +26,15 @@ class User < ApplicationRecord
     elsif conditions.has_key?(:username) || conditions.has_key?(:email)
       where(conditions.to_h).first
     end
+  end
+
+  private
+
+  def must_have_a_role
+    errors.add(:roles, "must have at least one role") unless roles.any?
+  end
+
+  def assign_default_role
+    add_role(:staff) if roles.blank?
   end
 end

@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Branch offices</h1>
+
+<div id="branch_offices">
+  <% @branch_offices.each do |branch_office| %>
+    <div id="<%=  branch_office %>">
+      <h2><%= branch_office.name %></h2>
+      <p><%= branch_office.address %></p>
+      <p><%= branch_office.phone %></p>
+    </div>
+    <p>
+      <%= link_to "Show this branch office", branch_office %>
+    </p>
+  <% end %>
+</div>

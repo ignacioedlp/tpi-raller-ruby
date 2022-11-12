@@ -1,4 +1,4 @@
-class UserPolicy < ApplicationPolicy
+class ShiftPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
     def resolve
@@ -14,23 +14,15 @@ class UserPolicy < ApplicationPolicy
     @user.has_any_role? :admin, :staff
   end
 
-  def new?
-    @user.has_any_role? :admin
-  end
-
-  def create?
-    @user.has_any_role? :admin
-  end
-
   def destroy?
     @user.has_role? :admin
   end
 
   def edit?
-    @user.has_any_role? :admin
+    @user.has_any_role? :admin, :staff
   end
 
   def update?
-    @user.has_role? :admin
+    @user.has_any_role? :admin, :staff
   end
 end
