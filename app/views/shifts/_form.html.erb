@@ -26,7 +26,13 @@
     <%= form.text_field :reason %>
   </div>
   
-  <div>
+  <div class="field">
+    <%= form.label :branch_office_id %>
+    <%= form.select :branch_office_id, BranchOffice.all.map { |bo| [bo.name, bo.id] } %>
+  </div>
+
+
+  <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>

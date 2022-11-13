@@ -26,12 +26,12 @@ class Shift < ApplicationRecord
 
   def validate_shift_time
     #Si hay horarios de ese dia de la semana en la sucursal
-    if self.branch_office.opening_hours.where(day: self.day).any?
+    if self.branch_office&.opening_hours&.where(day: self.day)&.any?
       #Si el horario de inicio es menor al horario de apertura de la sucursal
       if self.hour < self.branch_office.opening_hours.where(day: self.day).first.opens
         errors.add(:start_time, "El horario de atencion es menor al horario de apertura de la sucursal")
       end
-      #Si el horario de fin es mayor al horario de cierre de la sucursal
+      #Si el horario de fin es mayor al horario de cierrSe de la sucursal
       if self.hour > self.branch_office.opening_hours.where(day: self.day).first.closes
         errors.add(:end_time, "El horario de atencion es mayor al horario de cierre de la sucursal")
       end

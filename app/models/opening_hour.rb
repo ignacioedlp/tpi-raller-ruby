@@ -32,7 +32,7 @@ class OpeningHour < ApplicationRecord
     def self.days_with_index_and_name_and_opens_and_closes(branch_office)
         days = []
         OpeningHour.days.each do |day, index|
-            opening_hour = branch_office.opening_hours.find_by(day: index)
+            opening_hour = branch_office&.opening_hours&.find_by(day: index)
             days << {
                 index: index,
                 name: day,

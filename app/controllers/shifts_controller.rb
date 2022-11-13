@@ -24,7 +24,7 @@ class ShiftsController < ApplicationController
 
   # POST /shifts or /shifts.json
   def create
-
+    # Recibir el id de la sucursal por parametro
     params[:shift][:user_id] = current_user.id
     params[:shift][:day] = params[:shift][:day].to_i 
     @shift = Shift.new(shift_params)
