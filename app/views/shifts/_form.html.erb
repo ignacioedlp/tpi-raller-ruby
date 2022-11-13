@@ -13,7 +13,7 @@
 
   <div>
     <%= form.label :day %><br />
-    <%= form.select :day, @days  %>
+    <%= form.select :day, Shift::DAYS  %>
   </div>
 
   <div class="field">
@@ -24,22 +24,8 @@
   <div class="field">
     <%= form.label :reason %>
     <%= form.text_field :reason %>
-
-
-
-  <div class="field">
-    <%= form.label :branch_office_id %>
-    <%= form.select :branch_office_id, options_for_select(BranchOffice.all.map { |office| [office.name, office.id] }, shift.branch_office_id) %>
   </div>
-
-  <%# Agregar un select para cambiar el status %>
-
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.select :status, options_for_select(Shift::STATUSES, shift.status) %>
-  </div>
-
-
+  
   <div>
     <%= form.submit %>
   </div>

@@ -20,5 +20,17 @@ ActiveAdmin.register_page "Dashboard" do
       end
   end # content
 
+
+  # Authorizar solo a los administradores del sistema, que tengan el rol de admin
+  controller do
+    before_action :authenticate_admin_user!
+    before_action :authorize_admin
+    def authorize_admin
+      if current_admin_user.role != "admin"
+        redirect_to root_path, alert: "No estas autorizado para ver esta pagina"
+      end
+    end
+  end
+
   
 end
