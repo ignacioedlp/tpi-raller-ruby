@@ -1,5 +1,5 @@
 ActiveAdmin.register OpeningHour do
-
+  menu label: proc { I18n.t("active_admin.title.opening_hours") }
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -15,7 +15,7 @@ ActiveAdmin.register OpeningHour do
     permitted
   end
 
-  index do
+  index :title => I18n.t("active_admin.title.opening_hours") do
     selectable_column
     id_column
     column "Sucursal", :branch_office
@@ -30,7 +30,7 @@ ActiveAdmin.register OpeningHour do
   show do
     attributes_table do
       row :branch_office
-      row :day
+      row :day 
       row :opens
       row :closes
       row :created_at
@@ -57,6 +57,32 @@ ActiveAdmin.register OpeningHour do
   filter :opens
   filter :closes
   filter :created_at
+
+  controller do
+    def create
+      if current_admin_user.has_role? :admin
+        super
+      else
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para crear usuarios administradores"
+      end
+    end
+
+    def update
+      if current_admin_user.has_role? :admin
+        super
+      else
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para editar usuarios administradores"
+      end
+    end
+
+    def destroy
+      if current_admin_user.has_role? :admin
+        super
+      else
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para eliminar usuarios administradores"
+      end
+    end
+  end
 
 
   form do |f|

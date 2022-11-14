@@ -1,5 +1,5 @@
 ActiveAdmin.register Shift do
-
+  menu label: proc { I18n.t("active_admin.title.shifts") }
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -15,7 +15,7 @@ ActiveAdmin.register Shift do
   #   permitted
   # end
 
-  index do
+  index :title => I18n.t("active_admin.title.shifts") do
     selectable_column
     id_column
     column "Sucursal", :branch_office
@@ -65,6 +65,38 @@ ActiveAdmin.register Shift do
   filter :reason
   filter :status
   filter :created_at
+
+  controller do
+
+    def create
+      if current_admin_user.has_role? :admin
+        super
+      else
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para crear usuarios administradores"
+      end
+    end
+
+    def update
+      if current_admin_user.has_role? :admin
+        # Solo los usuarios del mismo sucursal pueden editar
+        if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id
+          super
+        else 
+          redirect_to admin_admin_users_path, alert: "No tiene permisos para editar "
+        end
+      else
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para editar usuarios administradores"
+      end
+    end
+
+    def destroy
+      if current_admin_user.has_role? :admin
+        super
+      else
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para eliminar usuarios administradores"
+      end
+    end
+  end
 
   form do |f|
     f.inputs do
