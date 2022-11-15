@@ -5,6 +5,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :validatable
 
+  validates :username, presence: true, uniqueness: {case_sensitive: false}
+
+
   # El usuario puede tener varios shifts
   has_many :shifts, dependent: :destroy
 

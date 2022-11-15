@@ -35,6 +35,16 @@ ActiveAdmin.register BranchOffice do
       row :opening_hours
       row :created_at
     end
+
+    # Mostrar un panel con los horarios por dia 
+    panel "Horarios de atencion" do
+      table_for branch_office.opening_hours do
+        column "Dia", :day
+        column "Abre", :opens
+        column "Cierra", :closes
+      end
+    end
+
   end
 
   filter :name
@@ -47,7 +57,7 @@ ActiveAdmin.register BranchOffice do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para crear usuarios administradores"
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para crear sucursales"
       end
     end
 
@@ -55,7 +65,7 @@ ActiveAdmin.register BranchOffice do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para editar usuarios administradores"
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para editar sucursales"
       end
     end
 
@@ -63,7 +73,7 @@ ActiveAdmin.register BranchOffice do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para eliminar usuarios administradores"
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para eliminar sucursales"
       end
     end
   end

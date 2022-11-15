@@ -4,7 +4,7 @@ class ShiftsController < ApplicationController
 
   # GET /shifts or /shifts.json
   def index
-    @shifts = Shift.all
+    @shifts = Shift.where(user_id: current_user.id)
   end
 
   # GET /shifts/1 or /shifts/1.json

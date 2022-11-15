@@ -15,6 +15,21 @@ if User.count == 0
 
   branch_office.save!
 
+  lunes = OpeningHour.new({day: 1, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
+  martes = OpeningHour.new({day: 2, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
+  miercoles = OpeningHour.new({day: 3, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
+  jueves = OpeningHour.new({day: 4, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
+  viernes = OpeningHour.new({day: 5, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
+  sabado = OpeningHour.new({day: 6, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
+
+  lunes.save!
+  martes.save!
+  miercoles.save!
+  jueves.save!
+  viernes.save!
+  sabado.save!
+
+
   admin = AdminUser.new({username: "superadmin", email: "superadmin@tpi.com", password: "p4ssw0rd", password_confirmation: "p4ssw0rd", branch_office_id: branch_office.id})
 
   admin.add_role :admin
@@ -31,6 +46,11 @@ if User.count == 0
   )
   
   user.save!
+
+  # Nuevo turno 
+  turn = Shift.new({user_id: user.id, branch_office_id: branch_office.id, day: 1, hour: "08:00", status: "pending"})
+
+  turn.save!
 
   puts "Adding roles admin, staff"
 

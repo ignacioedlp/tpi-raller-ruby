@@ -5,7 +5,7 @@ ActiveAdmin.register Shift do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :day, :hour, :branch_office_id, :user_id, :reason, :status, :admin_user_id
+  permit_params :day, :hour, :branch_office_id, :user_id, :reason, :status, :admin_user_id, :comment
   #
   # or
   #
@@ -39,12 +39,23 @@ ActiveAdmin.register Shift do
       row :reason
       row :admin_user
       row :status
+      row :comment
       row :created_at
     end
+
   end
 
   # Custom update
   controller do
+    # Solamente traer los shifts de la misma sucursal del empleado que son staff
+    def scoped_collection
+      if current_admin_user.has_role? :staff and not current_admin_user.has_role? :admin
+        Shift.where(branch_office_id: current_admin_user.branch_office_id)
+      else
+        Shift.all
+      end
+    end
+
     def update
       # Convert day to integer to save in database
       params[:shift][:day] = params[:shift][:day].to_i
@@ -72,20 +83,15 @@ ActiveAdmin.register Shift do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para crear usuarios administradores"
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para crear turnos"
       end
     end
 
     def update
-      if current_admin_user.has_role? :admin
-        # Solo los usuarios del mismo sucursal pueden editar
-        if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id
+      if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id
           super
-        else 
-          redirect_to admin_admin_users_path, alert: "No tiene permisos para editar "
-        end
-      else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para editar usuarios administradores"
+      else 
+          redirect_to admin_admin_users_path, alert: "No tiene permisos para editar turnos de otras sucursales"
       end
     end
 
@@ -93,7 +99,7 @@ ActiveAdmin.register Shift do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para eliminar usuarios administradores"
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para eliminar turnos"
       end
     end
   end
@@ -109,6 +115,7 @@ ActiveAdmin.register Shift do
       f.input :hour, label: "Hora"
       f.input :reason, label: "Razon"
       f.input :status, label: "Estado", as: :select, collection: Shift::STATUSES
+      f.input :comment, label: "Comentario"
     end
     f.actions
   end

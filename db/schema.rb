@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_12_211800) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_15_014559) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -88,6 +88,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_12_211800) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "admin_user_id"
+    t.string "comment"
     t.index ["admin_user_id"], name: "index_shifts_on_admin_user_id"
     t.index ["branch_office_id", "user_id"], name: "index_branch_offices_users_on_branch_office_id_and_user_id"
     t.index ["branch_office_id"], name: "index_shifts_on_branch_office_id"
