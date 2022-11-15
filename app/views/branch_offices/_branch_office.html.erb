@@ -3,18 +3,32 @@
   <p><%= branch_office.address %></p>
   <p><%= branch_office.phone %></p>
 
+  
+
   <h1>Opening hours</h1>
   <div id="opening_hours">
 
-    <% OpeningHour.days_with_index_and_name_and_opens_and_closes(branch_office).each do |day| %>
-        <div>
-          <p><%= day[:name] %></p>
-          <p><%= day[:opens] %></p>
-          <p><%= day[:closes] %></p>
-        </div>
-      <% end %>
+    <table> 
+      <thead>    
+        <tr>       
+          <th>Day</th>       
+          <th>Opens</th>      
+          <th>Closes</th> 
+        </tr>   
+      </thead>   
+      <tbody> 
+          <% OpeningHour.days_with_index_and_name_and_opens_and_closes(branch_office).each do |day| %> 
+            <tr> 
+              <td><%= day[:name] %></td>
+              <td><%= day[:opens] %></td> 
+              <td><%= day[:closes] %></td> 
+            </tr> 
+          <% end %> 
+      </tbody> 
+    </table>
 
   <%# Mostrar un boton que redirija para crear un shifts con este offices %>
   <%= link_to "Create shift", new_shift_path(branch_office_id: branch_office.id) %>
   
 </div>
+
