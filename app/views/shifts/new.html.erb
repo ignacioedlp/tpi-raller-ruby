@@ -4,6 +4,25 @@
 
 <br>
 
+<table> 
+  <thead>    
+    <tr>       
+      <th>Day</th>       
+      <th>Opens</th>      
+      <th>Closes</th> 
+    </tr>   
+  </thead>   
+  <tbody> 
+      <% OpeningHour.days_with_index_and_name_and_opens_and_closes(@branch_office).each do |day| %> 
+        <tr> 
+          <td><%= day[:name] %></td>
+          <td><%= day[:opens] %></td> 
+          <td><%= day[:closes] %></td> 
+        </tr> 
+      <% end %> 
+  </tbody> 
+</table>
+
 <div>
   <%= link_to "Back to shifts", shifts_path %>
 </div>

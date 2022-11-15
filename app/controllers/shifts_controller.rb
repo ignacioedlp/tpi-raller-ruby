@@ -4,7 +4,7 @@ class ShiftsController < ApplicationController
 
   # GET /shifts or /shifts.json
   def index
-    @shifts = Shift.all
+    @shifts = Shift.where(user_id: current_user.id)
   end
 
   # GET /shifts/1 or /shifts/1.json
@@ -13,18 +13,18 @@ class ShiftsController < ApplicationController
 
   # GET /shifts/new
   def new
-    @shift = Shift.new
-    @days = { "Lunes" => 0, "Martes" => 1, "Miércoles" => 2, "Jueves" => 3, "Viernes" => 4, "Sábado" => 5, "Domingo" => 6 }
+    # Recibir el id de la sucursal por parametro
+    @branch_office = BranchOffice.find(params[:branch_office_id])
+    @shift = Shift.new    
   end
 
   # GET /shifts/1/edit
   def edit
-    @days = { "Lunes" => 0, "Martes" => 1, "Miércoles" => 2, "Jueves" => 3, "Viernes" => 4, "Sábado" => 5, "Domingo" => 6 }
   end
 
   # POST /shifts or /shifts.json
   def create
-
+    # Recibir el id de la sucursal por parametro
     params[:shift][:user_id] = current_user.id
     params[:shift][:day] = params[:shift][:day].to_i 
     @shift = Shift.new(shift_params)
@@ -72,6 +72,6 @@ class ShiftsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def shift_params
-      params.require(:shift).permit(:day, :hour, :branch_office_id, :user_id, :reason, :status)
+      params.require(:shift).permit(:day, :hour, :branch_office_id, :user_id, :reason)
     end
 end

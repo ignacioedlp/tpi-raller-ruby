@@ -4,6 +4,11 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :users
+    resources :branch_offices
+    resources :opening_hours
+    resources :shifts
+    resources :dashboards 
+    resources :admin_users 
   end
   # add prefix to route users 
   devise_for :users , path: 'my'

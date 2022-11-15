@@ -5,7 +5,7 @@ class AdminUser < ApplicationRecord
   devise :database_authenticatable, 
          :recoverable, :rememberable, :validatable
 
-  belongs_to :branch_office
+  belongs_to :branch_office, optional: true
   has_many :shifts, dependent: :destroy
 
 
@@ -13,7 +13,17 @@ class AdminUser < ApplicationRecord
 
   after_create :assign_default_role
 
+  validates :username, presence: true, uniqueness: {case_sensitive: false}
+
   validate :must_have_a_role, on: :update
+  validate :if_is_staff_have_branch_office
+
+  def if_is_staff_have_branch_office
+    if self.has_role? :staff and self.branch_office_id.nil?
+      errors.add(:branch_office_id, "Debe tener una sucursal asignada")
+    end
+  end
+
 
   def login
     @login || username || email

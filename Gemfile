@@ -43,6 +43,8 @@ gem 'activeadmin'
 
 gem 'sass-rails'
 
+gem 'tod'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 

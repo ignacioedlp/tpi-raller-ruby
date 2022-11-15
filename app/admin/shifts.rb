@@ -1,11 +1,11 @@
 ActiveAdmin.register Shift do
-
+  menu label: proc { I18n.t("active_admin.title.shifts") }
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :day, :hour, :branch_office_id, :user_id, :reason, :status, :admin_user_id
+  permit_params :day, :hour, :branch_office_id, :user_id, :reason, :status, :admin_user_id, :comment
   #
   # or
   #
@@ -15,7 +15,7 @@ ActiveAdmin.register Shift do
   #   permitted
   # end
 
-  index do
+  index :title => I18n.t("active_admin.title.shifts") do
     selectable_column
     id_column
     column "Sucursal", :branch_office
@@ -39,12 +39,23 @@ ActiveAdmin.register Shift do
       row :reason
       row :admin_user
       row :status
+      row :comment
       row :created_at
     end
+
   end
 
   # Custom update
   controller do
+    # Solamente traer los shifts de la misma sucursal del empleado que son staff
+    def scoped_collection
+      if current_admin_user.has_role? :staff and not current_admin_user.has_role? :admin
+        Shift.where(branch_office_id: current_admin_user.branch_office_id)
+      else
+        Shift.all
+      end
+    end
+
     def update
       # Convert day to integer to save in database
       params[:shift][:day] = params[:shift][:day].to_i
@@ -66,6 +77,33 @@ ActiveAdmin.register Shift do
   filter :status
   filter :created_at
 
+  controller do
+
+    def create
+      if current_admin_user.has_role? :admin
+        super
+      else
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para crear turnos"
+      end
+    end
+
+    def update
+      if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id
+          super
+      else 
+          redirect_to admin_admin_users_path, alert: "No tiene permisos para editar turnos de otras sucursales"
+      end
+    end
+
+    def destroy
+      if current_admin_user.has_role? :admin
+        super
+      else
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para eliminar turnos"
+      end
+    end
+  end
+
   form do |f|
     f.inputs do
       f.input :branch_office, label: "Sucursal"
@@ -77,6 +115,7 @@ ActiveAdmin.register Shift do
       f.input :hour, label: "Hora"
       f.input :reason, label: "Razon"
       f.input :status, label: "Estado", as: :select, collection: Shift::STATUSES
+      f.input :comment, label: "Comentario"
     end
     f.actions
   end

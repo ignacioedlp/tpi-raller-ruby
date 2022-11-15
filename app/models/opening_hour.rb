@@ -16,23 +16,14 @@ class OpeningHour < ApplicationRecord
     validates :closes, presence: true
     validates :branch_office, presence: true
 
-    validate :validates_closes_is_greater_than_opens
 
     enum day: {"Lunes" => 0, "Martes" => 1, "Miércoles" => 2, "Jueves" => 3, "Viernes" => 4, "Sábado" => 5, "Domingo" => 6 }
 
 
-
-
-    def validates_closes_is_greater_than_opens
-        if closes && opens && closes < opens
-            errors.add(:closes, "must be greater than opens")
-        end
-    end
-
     def self.days_with_index_and_name_and_opens_and_closes(branch_office)
         days = []
         OpeningHour.days.each do |day, index|
-            opening_hour = branch_office.opening_hours.find_by(day: index)
+            opening_hour = branch_office&.opening_hours&.find_by(day: index)
             days << {
                 index: index,
                 name: day,
