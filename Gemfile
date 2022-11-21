@@ -39,11 +39,17 @@ gem "pundit"
 # Linter
 gem "standard"
 
+# Admin panel
 gem 'activeadmin'
 
+# sass
 gem 'sass-rails'
 
+# Tailwind
 gem 'tailwindcss-rails'
+
+# Decorators
+gem 'draper'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"

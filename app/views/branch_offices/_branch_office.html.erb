@@ -1,19 +1,19 @@
 <div id="<%= dom_id branch_office %>">
   <h2><%= branch_office.name %></h2>
-  <p><%= branch_office.address %></p>
-  <p><%= branch_office.phone %></p>
+  <h3><%= branch_office.address %></h3>
+  <h3><%= branch_office.phone %></h3>
 
   
 
-  <h1>Opening hours</h1>
+  <h3>Horarios</h3>
   <div id="opening_hours">
 
     <table> 
       <thead>    
         <tr>       
-          <th>Day</th>       
-          <th>Opens</th>      
-          <th>Closes</th> 
+          <th>Dia</th>       
+          <th>Abre</th>      
+          <th>Cierra</th> 
         </tr>   
       </thead>   
       <tbody> 
@@ -28,7 +28,7 @@
     </table>
 
   <%# Mostrar un boton que redirija para crear un shifts con este offices %>
-  <%= link_to "Create shift", new_shift_path(branch_office_id: branch_office.id) %>
+  <%= link_to "Pedir un turno", new_shift_path(branch_office_id: branch_office.id), class:"text-lg" %>
   
 </div>
 

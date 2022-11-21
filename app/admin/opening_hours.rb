@@ -1,5 +1,6 @@
 ActiveAdmin.register OpeningHour do
   menu label: proc { I18n.t("active_admin.title.opening_hours") }
+  decorate_with OpeningHourDecorator
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -19,21 +20,18 @@ ActiveAdmin.register OpeningHour do
     selectable_column
     id_column
     column "Sucursal", :branch_office
-    column "Dia", :days
+    column "Dia", :name
     column "Abre", :opens
     column "Cierra", :closes
-    column "Creacion", :created_at
-    column "Actualizacion", :updated_at
     actions
   end
 
   show do
     attributes_table do
       row :branch_office
-      row :day 
+      row :name 
       row :opens
       row :closes
-      row :created_at
     end
 
   end
@@ -77,8 +75,8 @@ ActiveAdmin.register OpeningHour do
     f.inputs do
       f.input :branch_office, as: :select, collection: BranchOffice.all, label: "Sucursal"
       f.input :day, as: :select, collection: OpeningHour::DAYS, label: "Dia"
-      f.input :opens, label: "Abre"
-      f.input :closes, label: "Cierra"
+      f.input :opens, label: "Abre", as: :time_picker
+      f.input :closes, label: "Cierra", as: :time_picker
     end
     f.actions
   end

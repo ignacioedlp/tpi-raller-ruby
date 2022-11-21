@@ -4,11 +4,12 @@ class ShiftsController < ApplicationController
 
   # GET /shifts or /shifts.json
   def index
-    @shifts = Shift.where(user_id: current_user.id)
+    @shifts = Shift.where(user_id: current_user.id).decorate
   end
 
   # GET /shifts/1 or /shifts/1.json
   def show
+    @shift = @shift.decorate
   end
 
   # GET /shifts/new

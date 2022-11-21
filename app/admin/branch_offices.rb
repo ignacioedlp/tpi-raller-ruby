@@ -21,7 +21,6 @@ ActiveAdmin.register BranchOffice do
     column "Nombre", :name
     column "Direccion", :address
     column "Telefono", :phone
-    column "Horarios de atencion", :opening_hours
     column "Creacion", :created_at
     column "Actualizacion", :updated_at
     actions
@@ -32,16 +31,15 @@ ActiveAdmin.register BranchOffice do
       row :name
       row :address
       row :phone
-      row :opening_hours
       row :created_at
     end
 
-    # Mostrar un panel con los horarios por dia 
-    panel "Horarios de atencion" do
-      table_for branch_office.opening_hours do
-        column "Dia", :day
-        column "Abre", :opens
-        column "Cierra", :closes
+    # Mostrar un panel con los horarios por dia de Lunes a Domingo
+    panel "Opening Hours" do
+      attributes_table_for branch_office.opening_hours.decorate do
+        row :name
+        row :opens
+        row :closes
       end
     end
 
