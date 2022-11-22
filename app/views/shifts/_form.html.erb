@@ -1,38 +1,26 @@
 <%= form_with(model: shift) do |form| %>
-  <% if shift.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(shift.errors.count, "error") %> prohibited this shift from being saved:</h2>
-
-      <ul>
-        <% shift.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form.label :day %><br />
-    <%= form.select :day, Shift::DAYS  %>
+  <div class="mb-3">
+    <%= form.label "Dia", class: "form-label" %><br/>
+    <%= form.select :day, Shift::DAYS , class: "form-select" %>
   </div>
 
-  <div class="field">
-    <%= form.label :hour %>
-    <%= form.time_select :hour, minute_step: 15 %>
+  <div class="mb-3">
+    <%= form.label "Horario", class: "form-label" %> <br/>
+    <%= form.time_select :hour, minute_step: 15, class: "form-select" %>
   </div>
 
-  <div class="field">
-    <%= form.label :reason %>
-    <%= form.text_field :reason %>
+  <div class="mb-3">
+    <%= form.label "Razon", class: "form-label" %>
+    <%= form.text_field :reason, class: "form-control" %>
   </div>
   
-  <div class="field">
-    <%= form.label :branch_office_id %>
-    <%= form.select :branch_office_id, BranchOffice.all.map { |bo| [bo.name, bo.id] } %>
+  <div class="mb-3">
+    <%= form.label "Sucursal", class: "form-label" %><br/>
+    <%= form.select :branch_office_id, BranchOffice.all.map { |bo| [bo.name, bo.id] }, class: "form-select" %>
   </div>
 
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit%>
   </div>
 <% end %>

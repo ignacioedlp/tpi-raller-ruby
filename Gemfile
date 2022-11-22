@@ -39,11 +39,17 @@ gem "pundit"
 # Linter
 gem "standard"
 
+# Admin panel
 gem 'activeadmin'
 
+# sass
 gem 'sass-rails'
 
-gem 'tod'
+# Boostrap
+gem 'bootstrap', '~> 5.2.2'
+
+# Decorators
+gem 'draper'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"

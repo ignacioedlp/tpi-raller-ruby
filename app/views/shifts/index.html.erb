@@ -1,14 +1,8 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Shifts</h1>
-
-<div id="shifts">
-  <% @shifts.each do |shift| %>
-    <%= render shift %>
-    <p>
-      <%= link_to "Show this shift", shift %>
-    </p>
-  <% end %>
+<div class="container">
+  <h1 class="text-center">Mis turnos</h1>
+  <div class="row gx-3 justify-content-center">
+    <% @shifts.each do |shift| %>
+      <%= render shift %>
+    <% end %>
+  </div>
 </div>
-
-<br>

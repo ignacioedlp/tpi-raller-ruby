@@ -26,6 +26,14 @@ class Shift < ApplicationRecord
   validate :hour_is_between_opening_and_closing_hours
   # Validar si tiene un comentario y un empleado si el estado es rechazado o aceptado
   validate :comment_and_admin_user_are_present_if_status_is_rejected_or_accepted
+  validate :the_user_has_no_shifts_at_the_same_time, on: :create
+
+  def the_user_has_no_shifts_at_the_same_time
+    if Shift.where(user_id: user_id, day: day).any?
+      errors.add(:hour, "El usuario ya tiene un turno para ese dia")
+    end
+  end
+
 
 
   def comment_and_admin_user_are_present_if_status_is_rejected_or_accepted
@@ -53,6 +61,8 @@ class Shift < ApplicationRecord
       end
     end
   end
+
+
   
 
 

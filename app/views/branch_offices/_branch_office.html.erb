@@ -1,20 +1,28 @@
-<div id="<%= dom_id branch_office %>">
+<div id="<%= dom_id branch_office %>" class="d-flex flex-column mb-3">
   <h2><%= branch_office.name %></h2>
-  <p><%= branch_office.address %></p>
-  <p><%= branch_office.phone %></p>
+  <span class="mb-2 text-2xl font-medium text-gray-900 title-font">Direccion: <%= branch_office.address %></span>
+  <span class="mb-2 text-2xl font-medium text-gray-900 title-font">Telefono: <%= branch_office.phone %></span>
 
-  <h1>Opening hours</h1>
+  
+
+  <h3 class="my-2 text-2xl font-medium text-gray-900 title-font">Horarios</h3>
   <div id="opening_hours">
-
-    <% OpeningHour.days_with_index_and_name_and_opens_and_closes(branch_office).each do |day| %>
-        <div>
-          <p><%= day[:name] %></p>
-          <p><%= day[:opens] %></p>
-          <p><%= day[:closes] %></p>
-        </div>
-      <% end %>
+          <ul class="list-group list-group-horizontal ">
+            <li class="list-group-item w-25 fw-bolder">Dia</li>
+            <li class="list-group-item w-25 fw-bolder">Abre</li>
+            <li class="list-group-item w-25 fw-bolder">Cierra</li>
+          </ul>
+          <% OpeningHour.days_with_index_and_name_and_opens_and_closes(branch_office).each do |day| %> 
+          <ul class="list-group list-group-horizontal ">
+            <li class="list-group-item w-25"><%= day[:name] %></li>
+            <li class="list-group-item w-25"><%= day[:opens] %></li>
+            <li class="list-group-item w-25"><%= day[:closes] %></li>
+          </ul>
+          <% end %> 
+     
 
   <%# Mostrar un boton que redirija para crear un shifts con este offices %>
-  <%= link_to "Create shift", new_shift_path(branch_office_id: branch_office.id) %>
+  <%= link_to "Pedir un turno", new_shift_path(branch_office_id: branch_office.id), class:"text-lg text-decoration-none" %>
   
 </div>
+

@@ -1,5 +1,6 @@
 ActiveAdmin.register Shift do
   menu label: proc { I18n.t("active_admin.title.shifts") }
+  decorate_with ShiftDecorator
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -20,7 +21,7 @@ ActiveAdmin.register Shift do
     id_column
     column "Sucursal", :branch_office
     column "Usuario", :user
-    column "Dia", :day
+    column "Dia", :name
     column "Hora", :hour
     column "Razon", :reason
     column "Atendido", :admin_user
@@ -30,11 +31,11 @@ ActiveAdmin.register Shift do
     actions
   end
 
-  show do
-    attributes_table do
+  show :title => "Turno" do
+    attributes_table  do
       row :branch_office
       row :user
-      row :day
+      row :name
       row :hour
       row :reason
       row :admin_user
@@ -55,18 +56,6 @@ ActiveAdmin.register Shift do
         Shift.all
       end
     end
-
-    def update
-      # Convert day to integer to save in database
-      params[:shift][:day] = params[:shift][:day].to_i
-      super
-    end
-    def create
-      # Convert day to integer to save in database
-      debugger
-      params[:shift][:day] = params[:shift][:day].to_i
-      super
-    end
   end
 
   filter :branch_office
@@ -78,9 +67,17 @@ ActiveAdmin.register Shift do
   filter :created_at
 
   controller do
+    def scoped_collection
+      if current_admin_user.has_role? :staff and not current_admin_user.has_role? :admin
+        Shift.where(branch_office_id: current_admin_user.branch_office_id)
+      else
+        Shift.all
+      end
+    end
 
     def create
       if current_admin_user.has_role? :admin
+        params[:shift][:day] = params[:shift][:day].to_i
         super
       else
         redirect_to admin_admin_users_path, alert: "No tiene permisos para crear turnos"
@@ -88,10 +85,14 @@ ActiveAdmin.register Shift do
     end
 
     def update
-      if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id
+      if current_admin_user.has_role? :admin
+        params[:shift][:day] = params[:shift][:day].to_i
+        super
+      elsif current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id
+          params[:shift][:day] = params[:shift][:day].to_i
           super
       else 
-          redirect_to admin_admin_users_path, alert: "No tiene permisos para editar turnos de otras sucursales"
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para actualizar turnos de otras sucursales"
       end
     end
 
@@ -111,8 +112,7 @@ ActiveAdmin.register Shift do
       f.input :admin_user, label: "Personal atencion", input_html: { value: current_admin_user.id }
       f.input :day, label: "Dia", as: :select, collection: Shift::DAYS
 
-      #  TODO: Add hours for each day
-      f.input :hour, label: "Hora"
+      f.input :hour, label: "Hora", as: :time_picker
       f.input :reason, label: "Razon"
       f.input :status, label: "Estado", as: :select, collection: Shift::STATUSES
       f.input :comment, label: "Comentario"
