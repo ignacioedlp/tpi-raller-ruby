@@ -1,22 +1,16 @@
 
 <section class="overflow-hidden text-gray-600 body-font">
   <div class="container px-5 py-24 mx-auto">
-    <div class="-my-8 divide-y-2 divide-gray-100">
-      <div class="flex flex-wrap py-8 md:flex-nowrap">
-        <div class="flex flex-col flex-shrink-0 mb-6 md:w-64 md:mb-0">
-          <span class="text-lg font-semibold text-gray-700 title-font"><%= @shift.branch_office.name %></span>
-          <span class="mt-1 text-sm text-gray-500"><%= @shift.day_with_hour %></span>
-        </div>
-        <div class="md:flex-grow">
-          <p class="mb-2 text-2xl font-medium text-gray-900 title-font"><%= @shift.reason  %></p>
-          <p class="mb-2 text-2xl font-medium text-gray-900 title-font"><%= @shift.comment %></p>
-          <p class="mb-2 text-2xl font-medium text-gray-900 "><%= @shift.status %></p>
-          <div class="flex flex-row gap-4">
-            <%= link_to "Editar turno", edit_shift_path(@shift), class: "text-lg" %> 
-            <%= link_to "Borrar turno", @shift, method: :delete, class: "text-lg" %>
-            <%= link_to "Volver a los turnos", shifts_path, class: "text-lg" %>
-          </div>
-        </div>
+    <div class="d-flex flex-column mb-3">
+      <span class="mb-2 text-4xl fs-2 text-gray-900 title-font">Sucursal: <%= @shift.branch_office.name %></span>
+      <span class="mb-2 text-2xl font-medium text-gray-900 title-font">Horario del turno: <%= @shift.day_with_hour %></span>
+      <span class="mb-2 text-2xl font-medium text-gray-900 title-font">Razon del turno: <%= @shift.reason  %></span>
+      <span class="mb-2 text-2xl font-medium text-gray-900 title-font">Comentario del turno: <%= @shift.comment %></span>
+      <span class="mb-2 text-2xl font-medium text-gray-900 title-font">Estado del turno: <%= @shift.status %></span>
+      <div class="d-flex flex-column mb-3">
+        <div><%= link_to "Editar turno", edit_shift_path(@shift), class: "text-lg text-decoration-none" %> </div>
+        <div><%= link_to "Borrar turno", @shift, data: { turbo_method: :delete },class: "text-lg text-decoration-none" %></div>
+        <div><%= link_to "Volver a los turnos", shifts_path, class: "text-lg text-decoration-none" %></div>
       </div>
     </div>
   </div>

@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>App</title>
+    <title>Turno5</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
+    <% flash.each do |key, value| %>
+      <div class="alert alert-<%= key %> " role="alert">
+        <%= value %>
+      </div>
+    <% end %>
     <%= render 'partials/navbar' %>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <div class="container m-auto">
+    <div class="container mx-auto">
       <%= yield %>
     </div>
   </body>

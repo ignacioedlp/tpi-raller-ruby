@@ -8,54 +8,39 @@
 
 puts "Loading seeds"
 # Inserto los seeds solo en el caso en el que no exitan usuarios
-if User.count == 0
+
   puts "Creating users admin, staff and client"
 
-  branch_office = BranchOffice.new({name: "Sucursal 1", address: "Calle falsa 123", phone: "12345678"})
-
-  branch_office.save!
-
-  lunes = OpeningHour.new({day: 1, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
-  martes = OpeningHour.new({day: 2, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
-  miercoles = OpeningHour.new({day: 3, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
-  jueves = OpeningHour.new({day: 4, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
-  viernes = OpeningHour.new({day: 5, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
-  sabado = OpeningHour.new({day: 6, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
-
-  lunes.save!
-  martes.save!
-  miercoles.save!
-  jueves.save!
-  viernes.save!
-  sabado.save!
+  branch_office = BranchOffice.create!({name: "Sucursal 1", address: "Calle falsa 123", phone: "12345678"})
+  branch_office2 = BranchOffice.create!({name: "Sucursal 2", address: "Calle falsa 123", phone: "12345678"})
+  branch_office3 = BranchOffice.create!({name: "Sucursal 3", address: "Calle falsa 123", phone: "12345678"})
+  branch_office4 = BranchOffice.create!({name: "Sucursal 4", address: "Calle falsa 123", phone: "12345678"})
+  branch_office5 = BranchOffice.create!({name: "Sucursal 5", address: "Calle falsa 123", phone: "12345678"})
+  
 
 
-  admin = AdminUser.new({username: "superadmin", email: "superadmin@tpi.com", password: "p4ssw0rd", password_confirmation: "p4ssw0rd", branch_office_id: branch_office.id})
+  lunes = OpeningHour.create!({day: 0, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
+  martes = OpeningHour.create!({day: 1, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
+  miercoles = OpeningHour.create!({day: 2, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
+
+  jueves = OpeningHour.create!({day: 3, opens: "08:00", closes: "18:00", branch_office_id: branch_office2.id})
+  viernes = OpeningHour.create!({day: 4, opens: "08:00", closes: "18:00", branch_office_id: branch_office2.id})
+  sabado = OpeningHour.create!({day: 5, opens: "08:00", closes: "18:00", branch_office_id: branch_office2.id})
+
+
+  admin = AdminUser.create!({username: "administrador", email: "administrador@tpi.com", password: "password", password_confirmation: "password"})
 
   admin.add_role :admin
-  admin.save!
 
-  operador_bancario = AdminUser.new({username: "operador", email: "operador@tpi.com", password: "p4ssw0rd", password_confirmation: "p4ssw0rd", branch_office_id: branch_office.id})
+  operador_bancario = AdminUser.create!({username: "operador", email: "operador@tpi.com", password: "password", password_confirmation: "password", branch_office_id: branch_office.id})
 
-  operador_bancario.save!
+  user = User.create!({username: "cliente", email: "cliente@tpi.com", password: "password", password_confirmation: "password"})
 
-  user = User.new(
-    
-      {username: "client", email: "client@tpi.com", password: "p4ssw0rd", password_confirmation: "p4ssw0rd"}
-    
-  )
-  
-  user.save!
+  turno = Shift.create!({user_id: user.id, branch_office_id: branch_office.id, day: 1, hour: "08:00"})
+  turno2 = Shift.create!({user_id: user.id, branch_office_id: branch_office.id, day: 2, hour: "08:00"})
+  turno3 = Shift.create!({user_id: user.id, branch_office_id: branch_office2.id, day: 3, hour: "08:00"})
+  turno4 = Shift.create!({user_id: user.id, branch_office_id: branch_office2.id, day: 4, hour: "08:00"})
+  turno5 = Shift.create!({user_id: user.id, branch_office_id: branch_office2.id, day: 5, hour: "08:00"})
 
-  # Nuevo turno 
-  turn = Shift.new({user_id: user.id, branch_office_id: branch_office.id, day: 1, hour: "08:00", status: "pending"})
-
-  turn.save!
-
-  puts "Adding roles admin, staff"
-
-else
-  puts "Users already created"
-end
 
 puts "Finish loading seeds"

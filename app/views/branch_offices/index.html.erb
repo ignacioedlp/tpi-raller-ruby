@@ -1,28 +1,20 @@
-
-<h1>Sucursales</h1>
-
-<div id="branch_offices " class="flex flex-row justify-center w-full gap-10">
-  <% @branch_offices.each do |branch_office| %>
-
-  <div id="<%= branch_office %>" class="w-96">
-      <a
-      class="relative block p-8 border border-gray-100 shadow-xl rounded-xl"
-      href="<%= branch_office_path(branch_office) %>"
-    >
-
-      <div class="mt-4 text-gray-500 sm:pr-8">
-
-        <h3 class="mt-4 text-xl font-bold text-gray-900"> <%=branch_office.name%></h3>
-
-        
-        <p class="hidden mt-2 text-sm sm:block">
-          <%= branch_office.address %>
-        </p>
-        <p class="hidden mt-2 text-sm sm:block">
-          <%= branch_office.phone %>
-        </p>
+<div class="container">
+  <h1 class="text-center">Sucursales</h1>
+  <div class="row gx-3 justify-content-center">
+    <% @branch_offices.each do |branch_office| %>
+      <div class="card col-lg-4 col-md-6 m-4" style="width: 18rem;" id="<%= branch_office %>">
+        <div class="card-body">
+          <h5 class="card-title"><%=branch_office.name%></h5>
+          <p class="card-text"><%= branch_office.address %></p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Telefono: <%= branch_office.phone %></li>
+        </ul>
+        <div class="card-body">
+          <a href="<%= branch_office_path(branch_office) %>" class="card-link text-decoration-none">Ver sucursal</a>
+          <a href="<%= new_shift_path(branch_office_id: branch_office.id) %>" class="card-link text-decoration-none">Sacar turno</a>
+        </div>
       </div>
-    </a>
+    <% end %>
   </div>
-  <% end %>
 </div>

@@ -26,6 +26,25 @@ class ShiftDecorator < ApplicationDecorator
     "#{name} #{hour}"
   end
 
+  def status_span 
+    if object.status == "Pendiente"
+      helpers.content_tag :span, class: 'bg-warning px-2 py-1 text-dark bg-opacity-50 rounded-pill' do
+        object.status
+      end
+
+    elsif object.status == "Aceptado"
+      helpers.content_tag :span, class: 'bg-success px-2 py-1 text-dark bg-opacity-50 rounded-pill' do
+        object.status
+      end
+
+    elsif object.status == "Rechazado"
+      helpers.content_tag :span, class: 'bg-danger px-2 py-1 text-dark bg-opacity-50 rounded-pill' do
+        object.status
+      end
+    end
+  end
+
+
 
   def status_span_color 
     if object.status == "Aceptado"

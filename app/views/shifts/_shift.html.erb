@@ -1,17 +1,15 @@
-<div id="<%= dom_id shift %>" class="w-80">
-  <div class="relative block p-8 border border-gray-100 shadow-xl rounded-xl">
-    <span class="absolute right-4 top-4 rounded-full bg-green-100 px-3 py-1.5 text-xs font-medium text-green-600">
-      <%= shift.status %>
-    </span>
 
-    <div class="mt-4 text-gray-500 sm:pr-8">
-      <h3 class="mt-4 text-xl font-bold text-gray-900"> <%= shift.name %> - <%= shift.hour%></h3>
-      <p class="hidden mt-2 text-sm sm:block">
-        <%= shift.branch_office.name %>
-      </p>
-      <div class="block py-5 text-lg text-center border border-gray-100 shadow-xl rounded-xl">
-        <%= link_to "Ver detalles", shift_path(shift), class: "px-4 py-2 text-sm font-medium text-white  rounded-md " %>
+<div class=" card col-lg-4 col-md-6 m-4" style="width: 18rem;" id="<%= dom_id shift %>">
+    <div class="card-body container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-title"><%= shift.branch_office.name %></h5>
+        <%= shift.status_span %>
       </div>
+      <p class="card-text"><%= shift.name %> - <%= shift.hour%></p>
+    </div>
+    
+    <div class="card-body">
+      <a href="<%= shift_path(shift) %>" class="card-link text-decoration-none">Ver detalles</a>
+      <%= link_to "Borrar turno", shift, data: { turbo_method: :delete }, class: "card-link text-decoration-none" %>
     </div>
   </div>
-</div>

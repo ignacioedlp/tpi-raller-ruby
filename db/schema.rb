@@ -84,7 +84,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_014559) do
     t.integer "day"
     t.time "hour"
     t.text "reason"
-    t.string "status", default: "pending", null: false
+    t.string "status", default: "Pendiente", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "admin_user_id"
@@ -107,6 +107,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_014559) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
+  end
+
+  create_table "users_roles", id: false, force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "role_id"
+    t.index ["role_id"], name: "index_users_roles_on_role_id"
+    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
+    t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
 end

@@ -9,7 +9,7 @@ class CreateShifts < ActiveRecord::Migration[7.0]
       t.integer "day"
       t.time "hour"
       t.text "reason"
-      t.string "status", default: "pending", null: false
+      t.string "status", default: "Pendiente", null: false
 
       t.index ["branch_office_id", "user_id"], name: "index_branch_offices_users_on_branch_office_id_and_user_id"
 

@@ -45,8 +45,8 @@ gem 'activeadmin'
 # sass
 gem 'sass-rails'
 
-# Tailwind
-gem 'tailwindcss-rails'
+# Boostrap
+gem 'bootstrap', '~> 5.2.2'
 
 # Decorators
 gem 'draper'

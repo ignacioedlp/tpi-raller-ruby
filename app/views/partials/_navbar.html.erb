@@ -1,34 +1,25 @@
-<header class="text-gray-600 body-font">
-  <div class="container flex flex-col flex-wrap items-center p-5 mx-auto md:flex-row">
-    <a class="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 p-2 text-white bg-indigo-500 rounded-full" viewBox="0 0 24 24">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-      </svg>
-      <span class="ml-3 text-xl">Turno5</span>
-    </a>
-    <nav class="flex flex-wrap items-center justify-center text-base md:ml-auto md:mr-auto">
-      <a class="mr-5 hover:text-gray-900" href="<%= shifts_path() %>">Turnos</a>
-      <a class="mr-5 hover:text-gray-900" href="<%= branch_offices_path() %>">Sucursales</a>
-    </nav>
 
-     <% if user_signed_in? %>
-            <div class="sm:flex sm:gap-4">
-              <%= link_to "Mi cuenta",  edit_user_registration_path, class: "rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 text-decoration-none" %>
-            </div>
-            <div>
-              <%= link_to "Cerrar sesion", destroy_user_session_path, data: { "turbo-method": :delete }, class: "rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow" %>
-            </div>
-          <% else %>
-            <div class="sm:flex sm:gap-4">
-              <%= link_to "Iniciar sesion", new_user_session_path, class: "rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow" %>
+  <div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none fs-2">
+        Turno5
+      </a>
 
-              <div class="hidden sm:flex">
-              <%= link_to "Registrarse", new_user_registration_path, class: "rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"%>
-                
-              </div>
-            </div>
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a class="mr-5 hover:text-gray-900 text-decoration-none px-2 text-dark" href="<%= shifts_path() %>">Turnos</a></li>
+        <li><a class="mr-5 hover:text-gray-900 text-decoration-none px-2 text-dark" href="<%= branch_offices_path() %>">Sucursales</a></li>
+      </ul>
+
+      <div class="col-md-3 text-end">
+        <% if user_signed_in? %>
+          <%= link_to "Mi cuenta",  edit_user_registration_path, class: "btn btn-outline-primary me-2 text-decoration-none" %>
+          <%= link_to "Cerrar sesion",  destroy_user_session_path, data: { "turbo-method": :delete }, class: "btn btn-outline-primary me-2 text-decoration-none" %>
+         <% else %>
+            <%= link_to "Iniciar sesion",  new_user_session_path, class: "btn btn-outline-primary me-2 text-decoration-none" %>
+          <%= link_to "Registrarme",  new_user_registration_path, class: "btn btn-outline-primary me-2 text-decoration-none" %>
           <% end %>
-
-
+        
+      </div>
+    </header>
   </div>
-</header>
+

@@ -1,28 +1,26 @@
-<h1>Nuevo turno</h1>
-
-<%= render "form", shift: @shift %>
-
-<br>
-
-<table> 
-      <thead>    
-        <tr>       
-          <th>Dia</th>       
-          <th>Abre</th>      
-          <th>Cierra</th> 
-        </tr>   
-      </thead>   
-      <tbody> 
-          <% OpeningHour.days_with_index_and_name_and_opens_and_closes(@branch_office).each do |day| %> 
-            <tr> 
-              <td><%= day[:name] %></td>
-              <td><%= day[:opens] %></td> 
-              <td><%= day[:closes] %></td> 
-            </tr> 
-          <% end %> 
-      </tbody> 
-    </table>
-
 <div>
-  <%= link_to "Back to shifts", shifts_path %>
+  <h1>Nuevo turno</h1>
+
+  <%= render "form", shift: @shift %>
+
+  <h3>Horarios</h3>
+  <div id="opening_hours">
+    <ul class="list-group list-group-horizontal ">
+      <li class="list-group-item w-25 fw-bolder">Dia</li>
+      <li class="list-group-item w-25 fw-bolder">Abre</li>
+      <li class="list-group-item w-25 fw-bolder">Cierra</li>
+    </ul>
+    <% OpeningHour.days_with_index_and_name_and_opens_and_closes(@branch_office).each do |day| %> 
+    <ul class="list-group list-group-horizontal ">
+      <li class="list-group-item w-25"><%= day[:name] %></li>
+      <li class="list-group-item w-25"><%= day[:opens] %></li>
+      <li class="list-group-item w-25"><%= day[:closes] %></li>
+    </ul>
+    <% end %> 
+  </div>
+
+  <div>
+    <%= link_to "Volver a mis turnos", shifts_path, class: "text-decoration-none" %>
+  </div>
+
 </div>

@@ -1,6 +1,8 @@
-
-<div id="shifts" class="flex flex-row justify-center w-full gap-10">
-  <% @shifts.each do |shift| %>
-    <%= render shift %>
-  <% end %>
+<div class="container">
+  <h1 class="text-center">Mis turnos</h1>
+  <div class="row gx-3 justify-content-center">
+    <% @shifts.each do |shift| %>
+      <%= render shift %>
+    <% end %>
+  </div>
 </div>

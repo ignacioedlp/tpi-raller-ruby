@@ -21,6 +21,11 @@ class ShiftsController < ApplicationController
 
   # GET /shifts/1/edit
   def edit
+    if @shift.status == "Pendiente"
+      @branch_office = BranchOffice.find(params[:branch_office_id])
+    else
+      redirect_to shifts_path, alert: "No se puede editar un turno que ya fue aceptado o rechazado"
+    end
   end
 
   # POST /shifts or /shifts.json
@@ -31,7 +36,7 @@ class ShiftsController < ApplicationController
     @shift = Shift.new(shift_params)
     respond_to do |format|
       if @shift.save
-        format.html { redirect_to shift_url(@shift), notice: "Shift was successfully created." }
+        format.html { redirect_to shift_url(@shift), notice: "Turno creado!" }
         format.json { render :show, status: :created, location: @shift }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -46,7 +51,7 @@ class ShiftsController < ApplicationController
     params[:shift][:day] = params[:shift][:day].to_i 
     respond_to do |format|
       if @shift.update(shift_params)
-        format.html { redirect_to shift_url(@shift), notice: "Shift was successfully updated." }
+        format.html { redirect_to shift_url(@shift), notice: "Turno actualizado!" }
         format.json { render :show, status: :ok, location: @shift }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -60,7 +65,7 @@ class ShiftsController < ApplicationController
     @shift.destroy
 
     respond_to do |format|
-      format.html { redirect_to shifts_url, notice: "Shift was successfully destroyed." }
+      format.html { redirect_to shifts_url, notice: "Turno eliminado!" }
       format.json { head :no_content }
     end
   end
