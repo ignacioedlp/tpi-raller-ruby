@@ -81,8 +81,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_014559) do
   create_table "shifts", force: :cascade do |t|
     t.bigint "branch_office_id"
     t.bigint "user_id"
-    t.integer "day"
-    t.time "hour"
+    t.datetime "date"
     t.text "reason"
     t.string "status", default: "Pendiente", null: false
     t.datetime "created_at", null: false

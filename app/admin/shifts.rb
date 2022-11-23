@@ -6,7 +6,7 @@ ActiveAdmin.register Shift do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :day, :hour, :branch_office_id, :user_id, :reason, :status, :admin_user_id, :comment
+  permit_params :date, :branch_office_id, :user_id, :reason, :status, :admin_user_id, :comment
   #
   # or
   #
@@ -60,8 +60,7 @@ ActiveAdmin.register Shift do
 
   filter :branch_office
   filter :user
-  filter :day
-  filter :hour
+  filter :date
   filter :reason
   filter :status
   filter :created_at
@@ -77,7 +76,6 @@ ActiveAdmin.register Shift do
 
     def create
       if current_admin_user.has_role? :admin
-        params[:shift][:day] = params[:shift][:day].to_i
         super
       else
         redirect_to admin_admin_users_path, alert: "No tiene permisos para crear turnos"
@@ -86,10 +84,8 @@ ActiveAdmin.register Shift do
 
     def update
       if current_admin_user.has_role? :admin
-        params[:shift][:day] = params[:shift][:day].to_i
         super
       elsif current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id
-          params[:shift][:day] = params[:shift][:day].to_i
           super
       else 
         redirect_to admin_admin_users_path, alert: "No tiene permisos para actualizar turnos de otras sucursales"
@@ -110,9 +106,7 @@ ActiveAdmin.register Shift do
       f.input :branch_office, label: "Sucursal"
       f.input :user, label: "Usuario"
       f.input :admin_user, label: "Personal atencion", input_html: { value: current_admin_user.id }
-      f.input :day, label: "Dia", as: :select, collection: Shift::DAYS
-
-      f.input :hour, label: "Hora", as: :time_picker
+      f.input :date, label: "Dia", as: :date_time_picker
       f.input :reason, label: "Razon"
       f.input :status, label: "Estado", as: :select, collection: Shift::STATUSES
       f.input :comment, label: "Comentario"

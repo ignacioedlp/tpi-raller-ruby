@@ -1,12 +1,20 @@
 <%= form_with(model: shift) do |form| %>
-  <div class="mb-3">
-    <%= form.label "Dia", class: "form-label" %><br/>
-    <%= form.select :day, Shift::DAYS , class: "form-select" %>
-  </div>
+
+  <% if shift.errors.any? %>
+    <div id="error_explanation">
+      <h5>No se a podido procesar el turno!</h5>
+
+      <ul>
+      <% shift.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <div class="mb-3">
     <%= form.label "Horario", class: "form-label" %> <br/>
-    <%= form.time_select :hour, minute_step: 15, class: "form-select" %>
+    <%= form.datetime_field :date, minute_step: 15, class: "form-select" %>
   </div>
 
   <div class="mb-3">

@@ -6,21 +6,20 @@ class Shift < ApplicationRecord
   belongs_to :branch_office, inverse_of: :shifts
 
   DAYS = {
-        "Lunes" => 0,
-        "Martes" => 1,
-        "Miércoles" => 2,
-        "Jueves" => 3,
-        "Viernes" => 4,
-        "Sábado" => 5,
-        "Domingo" => 6
+        "Lunes" => 1,
+        "Martes" => 2,
+        "Miércoles" => 3,
+        "Jueves" => 4,
+        "Viernes" => 5,
+        "Sábado" => 6,
+        "Domingo" => 7
     }
 
   STATUSES = ["Pendiente", "Aceptado", "Rechazado"]
 
   # Validaciones
   # validar que el horario este entre los horarios de apertura y cierre de la sucursal
-  validates :hour, presence: true
-  validates :day, presence: true
+  validates :date, presence: true
   validates :branch_office, presence: true
   validates :user, presence: true
   validate :hour_is_between_opening_and_closing_hours
@@ -29,8 +28,8 @@ class Shift < ApplicationRecord
   validate :the_user_has_no_shifts_at_the_same_time, on: :create
 
   def the_user_has_no_shifts_at_the_same_time
-    if Shift.where(user_id: user_id, day: day).any?
-      errors.add(:hour, "El usuario ya tiene un turno para ese dia")
+    if Shift.where(user_id: user_id, date: date).any?
+      errors.add(:date, "El usuario ya tiene un turno para ese dia")
     end
   end
 
@@ -50,14 +49,16 @@ class Shift < ApplicationRecord
 
   # TODO: Averiguar como solucionar el problema de los horarios con los minutos 
   def hour_is_between_opening_and_closing_hours
-    if hour.present? && branch_office.present?
-      hour_shift = branch_office.opening_hours.find_by(day: day)
+    if date.present? && branch_office.present?
+      hour_shift = branch_office.opening_hours.find_by(day: date.strftime("%u").to_i)
       if hour_shift.present?
-        if hour.hour < hour_shift.opens.hour || hour.hour > hour_shift.closes.hour
-          errors.add(:hour, "El horario debe estar entre los horarios de apertura y cierre de la sucursal")
+        if date.hour < hour_shift.opens.hour || date.hour > hour_shift.closes.hour
+
+          errors.add(:date, "El horario debe estar entre los horarios de apertura y cierre de la sucursal")
         end
+
       else
-        errors.add(:hour, "La sucursal no abre ese día")
+        errors.add(:date, "La sucursal no abre ese día")
       end
     end
   end

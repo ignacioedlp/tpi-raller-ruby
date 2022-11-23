@@ -6,8 +6,7 @@ class CreateShifts < ActiveRecord::Migration[7.0]
       t.references :branch_office
       t.references :user
 
-      t.integer "day"
-      t.time "hour"
+      t.datetime "date"
       t.text "reason"
       t.string "status", default: "Pendiente", null: false
 

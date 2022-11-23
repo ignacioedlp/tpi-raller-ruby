@@ -41,6 +41,7 @@ gem "standard"
 
 # Admin panel
 gem 'activeadmin'
+gem 'active_admin_datetimepicker'
 
 # sass
 gem 'sass-rails'
@@ -50,6 +51,7 @@ gem 'bootstrap', '~> 5.2.2'
 
 # Decorators
 gem 'draper'
+
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"

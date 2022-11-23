@@ -22,7 +22,8 @@ class ShiftsController < ApplicationController
   # GET /shifts/1/edit
   def edit
     if @shift.status == "Pendiente"
-      @branch_office = BranchOffice.find(params[:branch_office_id])
+      
+      @branch_office = BranchOffice.find(@shift.branch_office_id)
     else
       redirect_to shifts_path, alert: "No se puede editar un turno que ya fue aceptado o rechazado"
     end
@@ -32,7 +33,6 @@ class ShiftsController < ApplicationController
   def create
     # Recibir el id de la sucursal por parametro
     params[:shift][:user_id] = current_user.id
-    params[:shift][:day] = params[:shift][:day].to_i 
     @shift = Shift.new(shift_params)
     respond_to do |format|
       if @shift.save
@@ -48,7 +48,6 @@ class ShiftsController < ApplicationController
   # PATCH/PUT /shifts/1 or /shifts/1.json
   def update
 
-    params[:shift][:day] = params[:shift][:day].to_i 
     respond_to do |format|
       if @shift.update(shift_params)
         format.html { redirect_to shift_url(@shift), notice: "Turno actualizado!" }
@@ -78,6 +77,6 @@ class ShiftsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def shift_params
-      params.require(:shift).permit(:day, :hour, :branch_office_id, :user_id, :reason)
+      params.require(:shift).permit(:date, :branch_office_id, :user_id, :reason)
     end
 end

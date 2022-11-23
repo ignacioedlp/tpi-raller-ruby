@@ -1,13 +1,13 @@
 class OpeningHour < ApplicationRecord
     belongs_to :branch_office, inverse_of: :opening_hours
     DAYS = {
-        "Lunes" => 0,
-        "Martes" => 1,
-        "Miércoles" => 2,
-        "Jueves" => 3,
-        "Viernes" => 4,
-        "Sábado" => 5,
-        "Domingo" => 6
+        "Lunes" => 1,
+        "Martes" => 2,
+        "Miércoles" => 3,
+        "Jueves" => 4,
+        "Viernes" => 5,
+        "Sábado" => 6,
+        "Domingo" => 7
     }
     
 
@@ -18,7 +18,13 @@ class OpeningHour < ApplicationRecord
     validate :day_is_unique, on: :create
 
 
-    enum day: {"Lunes" => 0, "Martes" => 1, "Miércoles" => 2, "Jueves" => 3, "Viernes" => 4, "Sábado" => 5, "Domingo" => 6 }
+    enum day: {"Lunes" => 1,
+        "Martes" => 2,
+        "Miércoles" => 3,
+        "Jueves" => 4,
+        "Viernes" => 5,
+        "Sábado" => 6,
+        "Domingo" => 7}
 
 
     def self.days_with_index_and_name_and_opens_and_closes(branch_office)

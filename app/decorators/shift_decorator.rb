@@ -11,19 +11,19 @@ class ShiftDecorator < ApplicationDecorator
   #   end
 
   def hour 
-    object.hour.strftime("%H:%M %p")
+    object.date.strftime("%H:%M %p")
   end
 
 
   # saber el dia de la semana en base al numero del dia
 
   def name 
-    OpeningHour::DAYS.key(object.day)
+    OpeningHour::DAYS.key(object.date.strftime("%u").to_i)
   end
 
 
   def day_with_hour 
-    "#{name} #{hour}"
+    "#{name} #{date}"
   end
 
   def status_span 
