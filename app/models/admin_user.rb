@@ -2,12 +2,11 @@ class AdminUser < ApplicationRecord
   rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, 
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable,
+    :recoverable, :rememberable, :validatable
 
   belongs_to :branch_office, optional: true
   has_many :shifts, dependent: :destroy
-
 
   attr_writer :login
 
@@ -19,11 +18,10 @@ class AdminUser < ApplicationRecord
   validate :if_is_staff_have_branch_office
 
   def if_is_staff_have_branch_office
-    if self.has_role? :staff and self.branch_office_id.nil?
+    if has_role?(:staff) && branch_office_id.nil?
       errors.add(:branch_office_id, "Debe tener una sucursal asignada")
     end
   end
-
 
   def login
     @login || username || email

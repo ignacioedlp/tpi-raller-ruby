@@ -7,7 +7,6 @@ class OpeningHourDecorator < ApplicationDecorator
   def name
     day
   end
-  
 
   def opens
     object.opens&.strftime("%H:%M %p") || "Closed"
@@ -16,5 +15,4 @@ class OpeningHourDecorator < ApplicationDecorator
   def closes
     object.closes&.strftime("%H:%M %p") || "Closed"
   end
-
 end

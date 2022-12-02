@@ -6,6 +6,6 @@ class CreateOpeningHours < ActiveRecord::Migration[7.0]
       t.time "opens"
       t.time "closes"
       t.index ["branch_office_id"], name: "index_opening_hours_on_branch_office_id"
-    end 
+    end
   end
 end

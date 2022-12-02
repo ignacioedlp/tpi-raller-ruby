@@ -17,7 +17,7 @@ class BranchOfficesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create branch_office" do
     assert_difference("BranchOffice.count") do
-      post branch_offices_url, params: { branch_office: {  } }
+      post branch_offices_url, params: {branch_office: {}}
     end
 
     assert_redirected_to branch_office_url(BranchOffice.last)
@@ -34,7 +34,7 @@ class BranchOfficesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update branch_office" do
-    patch branch_office_url(@branch_office), params: { branch_office: {  } }
+    patch branch_office_url(@branch_office), params: {branch_office: {}}
     assert_redirected_to branch_office_url(@branch_office)
   end
 

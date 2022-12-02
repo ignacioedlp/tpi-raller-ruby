@@ -1,5 +1,5 @@
 class ShiftsController < ApplicationController
-  before_action :set_shift, only: %i[ show edit update destroy ]
+  before_action :set_shift, only: %i[show edit update destroy]
   before_action :authenticate_user!
 
   # GET /shifts or /shifts.json
@@ -16,13 +16,14 @@ class ShiftsController < ApplicationController
   def new
     # Recibir el id de la sucursal por parametro
     @branch_office = BranchOffice.find(params[:branch_office_id])
-    @shift = Shift.new    
+    @shift = Shift.new
   end
 
   # GET /shifts/1/edit
   def edit
     if @shift.status == "Pendiente"
-      @branch_office = BranchOffice.find(params[:branch_office_id])
+
+      @branch_office = BranchOffice.find(@shift.branch_office_id)
     else
       redirect_to shifts_path, alert: "No se puede editar un turno que ya fue aceptado o rechazado"
     end
@@ -32,7 +33,6 @@ class ShiftsController < ApplicationController
   def create
     # Recibir el id de la sucursal por parametro
     params[:shift][:user_id] = current_user.id
-    params[:shift][:day] = params[:shift][:day].to_i 
     @shift = Shift.new(shift_params)
     respond_to do |format|
       if @shift.save
@@ -47,8 +47,6 @@ class ShiftsController < ApplicationController
 
   # PATCH/PUT /shifts/1 or /shifts/1.json
   def update
-
-    params[:shift][:day] = params[:shift][:day].to_i 
     respond_to do |format|
       if @shift.update(shift_params)
         format.html { redirect_to shift_url(@shift), notice: "Turno actualizado!" }
@@ -71,13 +69,14 @@ class ShiftsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_shift
-      @shift = Shift.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def shift_params
-      params.require(:shift).permit(:day, :hour, :branch_office_id, :user_id, :reason)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_shift
+    @shift = Shift.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def shift_params
+    params.require(:shift).permit(:date, :branch_office_id, :user_id, :reason)
+  end
 end
