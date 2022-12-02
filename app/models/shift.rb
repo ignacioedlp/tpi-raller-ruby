@@ -1,19 +1,18 @@
 class Shift < ApplicationRecord
-
-  #tiene un usuario y un admin asociado 
+  # tiene un usuario y un admin asociado
   belongs_to :user
   belongs_to :admin_user, optional: true
   belongs_to :branch_office, inverse_of: :shifts
 
   DAYS = {
-        "Lunes" => 1,
-        "Martes" => 2,
-        "Miércoles" => 3,
-        "Jueves" => 4,
-        "Viernes" => 5,
-        "Sábado" => 6,
-        "Domingo" => 7
-    }
+    "Lunes" => 1,
+    "Martes" => 2,
+    "Miércoles" => 3,
+    "Jueves" => 4,
+    "Viernes" => 5,
+    "Sábado" => 6,
+    "Domingo" => 7
+  }
 
   STATUSES = ["Pendiente", "Aceptado", "Rechazado"]
 
@@ -33,21 +32,18 @@ class Shift < ApplicationRecord
     end
   end
 
-
-
   def comment_and_admin_user_are_present_if_status_is_rejected_or_accepted
-    if self.status == "Rechazado" || self.status == "Aceptado"
-      if self.comment.blank?
+    if status == "Rechazado" || status == "Aceptado"
+      if comment.blank?
         errors.add(:comment, "Debe ingresar un comentario")
       end
-      if self.admin_user.blank?
+      if admin_user.blank?
         errors.add(:admin_user, "Debe seleccionar un empleado")
       end
     end
   end
-  
 
-  # TODO: Averiguar como solucionar el problema de los horarios con los minutos 
+  # TODO: Averiguar como solucionar el problema de los horarios con los minutos
   def hour_is_between_opening_and_closing_hours
     if date.present? && branch_office.present?
       hour_shift = branch_office.opening_hours.find_by(day: date.strftime("%u").to_i)
@@ -62,11 +58,4 @@ class Shift < ApplicationRecord
       end
     end
   end
-
-
-  
-
-
-  
-
 end

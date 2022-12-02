@@ -24,7 +24,7 @@
   
   <div class="mb-3">
     <%= form.label "Sucursal", class: "form-label" %><br/>
-    <%= form.select :branch_office_id, BranchOffice.all.map { |bo| [bo.name, bo.id] }, class: "form-select" %>
+    <%= form.select :branch_office_id, BranchOffice.all.map { |bo| [bo.name, bo.id] }, { :selected => params[:branch_office_id] } %>
   </div>
 
 

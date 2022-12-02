@@ -1,7 +1,7 @@
 class CreateShifts < ActiveRecord::Migration[7.0]
   def change
     create_table :shifts do |t|
-      # Quiero un modelo de turnos con referencias de los usuarios y las oficinas 
+      # Quiero un modelo de turnos con referencias de los usuarios y las oficinas
 
       t.references :branch_office
       t.references :user
@@ -16,4 +16,3 @@ class CreateShifts < ActiveRecord::Migration[7.0]
     end
   end
 end
-

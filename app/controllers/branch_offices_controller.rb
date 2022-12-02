@@ -1,5 +1,5 @@
 class BranchOfficesController < ApplicationController
-  before_action :set_branch_office, only: %i[ show edit update destroy ]
+  before_action :set_branch_office, only: %i[show edit update destroy]
 
   # GET /branch_offices or /branch_offices.json
   def index
@@ -12,13 +12,14 @@ class BranchOfficesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_branch_office
-      @branch_office = BranchOffice.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def branch_office_params
-      params.require(:branch_office).permit(:name, :address, :phone)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_branch_office
+    @branch_office = BranchOffice.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def branch_office_params
+    params.require(:branch_office).permit(:name, :address, :phone)
+  end
 end

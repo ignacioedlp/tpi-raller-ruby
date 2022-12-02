@@ -10,51 +10,45 @@ class ShiftDecorator < ApplicationDecorator
   #     end
   #   end
 
-  def hour 
+  def hour
     object.date.strftime("%H:%M %p")
   end
 
-
   # saber el dia de la semana en base al numero del dia
 
-  def name 
+  def name
     OpeningHour::DAYS.key(object.date.strftime("%u").to_i)
   end
 
-
-  def day_with_hour 
+  def day_with_hour
     "#{name} #{date}"
   end
 
-  def status_span 
+  def status_span
     if object.status == "Pendiente"
-      helpers.content_tag :span, class: 'bg-warning px-2 py-1 text-dark bg-opacity-50 rounded-pill' do
+      helpers.content_tag :span, class: "bg-warning px-2 py-1 text-dark bg-opacity-50 rounded-pill" do
         object.status
       end
 
     elsif object.status == "Aceptado"
-      helpers.content_tag :span, class: 'bg-success px-2 py-1 text-dark bg-opacity-50 rounded-pill' do
+      helpers.content_tag :span, class: "bg-success px-2 py-1 text-dark bg-opacity-50 rounded-pill" do
         object.status
       end
 
     elsif object.status == "Rechazado"
-      helpers.content_tag :span, class: 'bg-danger px-2 py-1 text-dark bg-opacity-50 rounded-pill' do
+      helpers.content_tag :span, class: "bg-danger px-2 py-1 text-dark bg-opacity-50 rounded-pill" do
         object.status
       end
     end
   end
 
-
-
-  def status_span_color 
+  def status_span_color
     if object.status == "Aceptado"
       "badge badge-success"
-    elseif object.status == "Rechazado"
+      elseif object.status == "Rechazado"
       "badge badge-danger"
     else
       "badge badge-warning"
     end
   end
-
-
 end

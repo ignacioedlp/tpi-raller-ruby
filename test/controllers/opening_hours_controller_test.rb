@@ -17,7 +17,7 @@ class OpeningHoursControllerTest < ActionDispatch::IntegrationTest
 
   test "should create opening_hour" do
     assert_difference("OpeningHour.count") do
-      post opening_hours_url, params: { opening_hour: {  } }
+      post opening_hours_url, params: {opening_hour: {}}
     end
 
     assert_redirected_to opening_hour_url(OpeningHour.last)
@@ -34,7 +34,7 @@ class OpeningHoursControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update opening_hour" do
-    patch opening_hour_url(@opening_hour), params: { opening_hour: {  } }
+    patch opening_hour_url(@opening_hour), params: {opening_hour: {}}
     assert_redirected_to opening_hour_url(@opening_hour)
   end
 

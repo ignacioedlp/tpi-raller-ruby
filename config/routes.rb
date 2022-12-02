@@ -7,11 +7,11 @@ Rails.application.routes.draw do
     resources :branch_offices
     resources :opening_hours
     resources :shifts
-    resources :dashboards 
-    resources :admin_users 
+    resources :dashboards
+    resources :admin_users
   end
-  # add prefix to route users 
-  devise_for :users , path: 'my'
+  # add prefix to route users
+  devise_for :users, path: "my"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   resources :branch_offices, only: [:index, :show]
   resources :shifts, only: [:index, :show, :new, :create, :edit, :update, :destroy]

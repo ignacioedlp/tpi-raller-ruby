@@ -7,37 +7,75 @@ es:
       active_admin/comment:
         one: "Comentario"
         other: "Comentarios"
-      users:
+      user:
         one: "Cliente"
         other: "Clientes"
-      active_admin/users:
+      active_admin/user:
         one: "Cliente"
         other: "Clientes"
-      opening_hours:
+      opening_hour:
         one: "Horario de atencion"
         other: "Horarios de atencion"
-      active_admin/opening_hours:
+      active_admin/opening_hour:
         one: "Horario de atencion"
         other: "Horarios de atencion"
-      admin_users:
+      admin_user:
         one: "Empleado"
         other: "Empleados"
-      active_admin/admin_users:
+      active_admin/admin_user:
         one: "Empleado"
         other: "Empleados"
-      branch_offices:
+      branch_office:
         one: "Sucursal"
         other: "Sucursales"
-      active_admin/branch_offices:
+      active_admin/branch_office:
         one: "Sucursal"
         other: "Sucursales"
-      shifts:
+      shift:
         one: "Turno"
         other: "Turnos"
-      active_admin/shifts:
+      active_admin/shift:
         one: "Turno"
         other: "Turnos"
     attributes:
+      user:
+        email: "Correo"
+        username: "Nombre de usuario"
+        created_at: "Fecha de creación"
+        updated_at: "Fecha de actualización"
+      admin_user:
+        email: "Correo"
+        username: "Nombre de usuario"
+        roles: "Roles"
+        branch_office: "Sucursal"
+        created_at: "Fecha de creación"
+        updated_at: "Fecha de actualización"
+      opening_hour:
+        name: "Dia"
+        opens: "Abre"
+        closes: "Cierra"
+        branch_office: "Sucursal"
+        created_at: "Fecha de creación"
+        updated_at: "Fecha de actualización"
+      shift:
+        user: "Cliente"
+        branch_office: "Sucursal"
+        hour: "Horario"
+        name: "Dia"
+        reason: "Motivo"
+        comment: "Comentario"
+        admin_user: "Empleado"
+        status: "Estado"
+        created_at: "Fecha de creación"
+        updated_at: "Fecha de actualización"
+      branch_office:
+        name: "Nombre"
+        address: "Dirección"
+        phone: "Teléfono"
+        shifts: "Turnos"
+        opening_hours: "Horarios de atencion"
+        created_at: "Fecha de creación"
+        updated_at: "Fecha de actualización"
       active_admin/comment:
         namespace: "Espacio de nombres"
         body: "Cuerpo"
@@ -71,6 +109,13 @@ es:
         reason: "Motivo"
         admin_user: "Empleado"
         status: "Estado"
+        created_at: "Fecha de creación"
+        updated_at: "Fecha de actualización"
+      active_admin/branch_office:
+        name: "Nombre"
+        address: "Dirección"
+        phone: "Teléfono"
+        opening_hours: "Horarios de atencion"
         created_at: "Fecha de creación"
         updated_at: "Fecha de actualización"
   active_admin:
@@ -161,6 +206,9 @@ es:
       action_label: "%{title} seleccionados"
       labels:
         destroy: "Borrar"
+    branch_offices:
+      created_at: "Fecha de creación"
+      name: "Nombre"
     comments:
       created_at: "Fecha de creación"
       resource_type: "Tipo de recurso"
@@ -272,6 +320,7 @@ es:
       failure:
         admin_user:
           unauthenticated: "Debe iniciar como empleado"
+          not_found_in_database: "Nombre de usuario o contraseña inválidos."
         user:
           unauthenticated: "Debe iniciar como cliente"
       sessions:

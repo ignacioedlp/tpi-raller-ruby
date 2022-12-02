@@ -11,36 +11,31 @@ ActiveAdmin.register OpeningHour do
   # or
   #
   permit_params do
-    # Convert day to integer to save in database 
+    # Convert day to integer to save in database
     permitted = [:branch_office_id, :day, :opens, :closes]
     permitted
   end
 
-  index :title => I18n.t("active_admin.title.opening_hours") do
+  index do
     selectable_column
     id_column
-    column "Sucursal", :branch_office
-    column "Dia", :name
-    column "Abre", :opens
-    column "Cierra", :closes
+    column :branch_office
+    column :name
+    column :opens
+    column :closes
     actions
   end
 
   show do
     attributes_table do
       row :branch_office
-      row :name 
+      row :name
       row :opens
       row :closes
     end
-
   end
 
   filter :branch_office
-  filter :day
-  filter :opens
-  filter :closes
-  filter :created_at
 
   controller do
     def create
@@ -48,7 +43,7 @@ ActiveAdmin.register OpeningHour do
         params[:opening_hour][:day] = params[:opening_hour][:day].to_i
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para crear horarios"
+        redirect_to admin_opening_hours_path, alert: "No tiene permisos para crear horarios"
       end
     end
 
@@ -57,7 +52,7 @@ ActiveAdmin.register OpeningHour do
         params[:opening_hour][:day] = params[:opening_hour][:day].to_i
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para editar horarios"
+        redirect_to admin_opening_hours_path, alert: "No tiene permisos para editar horarios"
       end
     end
 
@@ -65,20 +60,18 @@ ActiveAdmin.register OpeningHour do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para eliminar horarios"
+        redirect_to admin_opening_hours_path, alert: "No tiene permisos para eliminar horarios"
       end
     end
   end
 
-
   form do |f|
     f.inputs do
-      f.input :branch_office, as: :select, collection: BranchOffice.all, label: "Sucursal"
-      f.input :day, as: :select, collection: OpeningHour::DAYS, label: "Dia"
-      f.input :opens, label: "Abre", as: :time_picker
-      f.input :closes, label: "Cierra", as: :time_picker
+      f.input :branch_office, as: :select, collection: BranchOffice.all
+      f.input :day, as: :select, collection: OpeningHour::DAYS
+      f.input :opens, as: :time_picker
+      f.input :closes, as: :time_picker
     end
     f.actions
   end
-  
 end

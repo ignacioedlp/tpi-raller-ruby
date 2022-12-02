@@ -16,23 +16,21 @@ ActiveAdmin.register Shift do
   #   permitted
   # end
 
-  index :title => I18n.t("active_admin.title.shifts") do
+  index do
     selectable_column
     id_column
-    column "Sucursal", :branch_office
-    column "Usuario", :user
-    column "Dia", :name
-    column "Hora", :hour
-    column "Razon", :reason
-    column "Atendido", :admin_user
-    column "Estado", :status
-    column "Creacion", :created_at
-    column "Actualizacion", :updated_at
+    column :branch_office
+    column :user
+    column :name
+    column :hour
+    column :reason
+    column :admin_user
+    column :status
     actions
   end
 
-  show :title => "Turno" do
-    attributes_table  do
+  show title: "Turno" do
+    attributes_table do
       row :branch_office
       row :user
       row :name
@@ -43,14 +41,13 @@ ActiveAdmin.register Shift do
       row :comment
       row :created_at
     end
-
   end
 
   # Custom update
   controller do
     # Solamente traer los shifts de la misma sucursal del empleado que son staff
     def scoped_collection
-      if current_admin_user.has_role? :staff and not current_admin_user.has_role? :admin
+      if current_admin_user.has_role?(:staff) && (!current_admin_user.has_role? :admin)
         Shift.where(branch_office_id: current_admin_user.branch_office_id)
       else
         Shift.all
@@ -58,16 +55,13 @@ ActiveAdmin.register Shift do
     end
   end
 
-  filter :branch_office
   filter :user
   filter :date
-  filter :reason
   filter :status
-  filter :created_at
 
   controller do
     def scoped_collection
-      if current_admin_user.has_role? :staff and not current_admin_user.has_role? :admin
+      if current_admin_user.has_role?(:staff) && (!current_admin_user.has_role? :admin)
         Shift.where(branch_office_id: current_admin_user.branch_office_id)
       else
         Shift.all
@@ -78,7 +72,7 @@ ActiveAdmin.register Shift do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para crear turnos"
+        redirect_to admin_shifts_path, alert: "No tiene permisos para crear turnos"
       end
     end
 
@@ -86,9 +80,9 @@ ActiveAdmin.register Shift do
       if current_admin_user.has_role? :admin
         super
       elsif current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id
-          super
-      else 
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para actualizar turnos de otras sucursales"
+        super
+      else
+        redirect_to admin_shifts_path, alert: "No tiene permisos para actualizar turnos de otras sucursales"
       end
     end
 
@@ -96,22 +90,21 @@ ActiveAdmin.register Shift do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para eliminar turnos"
+        redirect_to admin_shifts_path, alert: "No tiene permisos para eliminar turnos"
       end
     end
   end
 
   form do |f|
     f.inputs do
-      f.input :branch_office, label: "Sucursal"
-      f.input :user, label: "Usuario"
-      f.input :admin_user, label: "Personal atencion", input_html: { value: current_admin_user.id }
-      f.input :date, label: "Dia", as: :date_time_picker
-      f.input :reason, label: "Razon"
-      f.input :status, label: "Estado", as: :select, collection: Shift::STATUSES
-      f.input :comment, label: "Comentario"
+      f.input :branch_office
+      f.input :user
+      f.input :admin_user, input_html: {value: current_admin_user.id}
+      f.input :date, as: :date_time_picker
+      f.input :reason
+      f.input :status, as: :select, collection: Shift::STATUSES
+      f.input :comment
     end
     f.actions
   end
-  
 end

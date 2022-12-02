@@ -3,22 +3,6 @@
 
   <%= render "form", shift: @shift %>
 
-  <h3>Horarios</h3>
-  <div id="opening_hours">
-    <ul class="list-group list-group-horizontal ">
-      <li class="list-group-item w-25 fw-bolder">Dia</li>
-      <li class="list-group-item w-25 fw-bolder">Abre</li>
-      <li class="list-group-item w-25 fw-bolder">Cierra</li>
-    </ul>
-    <% OpeningHour.days_with_index_and_name_and_opens_and_closes(@branch_office).each do |day| %> 
-    <ul class="list-group list-group-horizontal ">
-      <li class="list-group-item w-25"><%= day[:name] %></li>
-      <li class="list-group-item w-25"><%= day[:opens] %></li>
-      <li class="list-group-item w-25"><%= day[:closes] %></li>
-    </ul>
-    <% end %> 
-  </div>
-
   <div>
     <%= link_to "Volver a mis turnos", shifts_path, class: "text-decoration-none" %>
   </div>

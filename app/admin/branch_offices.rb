@@ -1,11 +1,14 @@
 ActiveAdmin.register BranchOffice do
   menu label: proc { I18n.t("active_admin.title.branch_offices") }
+  decorate_with BranchOfficeDecorator
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :name, :address, :phone
+  permit_params :name,
+    :address,
+    :phone
   #
   # or
   #
@@ -15,14 +18,13 @@ ActiveAdmin.register BranchOffice do
   #   permitted
   # end
 
-  index :title => I18n.t("active_admin.title.branch_offices") do
+  index do
     selectable_column
     id_column
-    column "Nombre", :name
-    column "Direccion", :address
-    column "Telefono", :phone
-    column "Creacion", :created_at
-    column "Actualizacion", :updated_at
+    column :name
+    column :address
+    column :phone
+    column :shifts
     actions
   end
 
@@ -35,27 +37,23 @@ ActiveAdmin.register BranchOffice do
     end
 
     # Mostrar un panel con los horarios por dia de Lunes a Domingo
-    panel "Opening Hours" do
+    panel "Horarios de atencion" do
       attributes_table_for branch_office.opening_hours.decorate do
         row :name
         row :opens
         row :closes
       end
     end
-
   end
 
   filter :name
-  filter :address
-  filter :phone
-  filter :created_at
 
   controller do
     def create
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para crear sucursales"
+        redirect_to admin_branch_offices_path, alert: "No tiene permisos para crear sucursales"
       end
     end
 
@@ -63,7 +61,7 @@ ActiveAdmin.register BranchOffice do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para editar sucursales"
+        redirect_to admin_branch_offices_path, alert: "No tiene permisos para editar sucursales"
       end
     end
 
@@ -71,19 +69,18 @@ ActiveAdmin.register BranchOffice do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para eliminar sucursales"
+        redirect_to admin_branch_offices_path, alert: "No tiene permisos para eliminar sucursales"
       end
     end
   end
 
   form do |f|
     f.inputs do
-      f.input :name, label: "Nombre"
-      f.input :address, label: "Direccion"
-      f.input :phone, label: "Telefono"
-      f.input :opening_hours, label: "Horarios de atencion"
+      f.input :name
+      f.input :address
+      f.input :phone
     end
+
     f.actions
   end
-  
 end

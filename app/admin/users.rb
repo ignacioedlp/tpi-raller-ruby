@@ -15,13 +15,13 @@ ActiveAdmin.register User do
   #   permitted
   # end
 
-  index :title => I18n.t("active_admin.title.users") do
+  index do
     selectable_column
     id_column
-    column "Email", :email
-    column "Username", :username
-    column "Creacion", :created_at
-    column "Actualizacion", :updated_at
+    column :email
+    column :username
+    column :created_at
+    column :updated_at
     actions
   end
 
@@ -32,20 +32,16 @@ ActiveAdmin.register User do
       row :created_at
     end
   end
-  
 
   filter :email
   filter :username
-  filter :created_at
-
 
   controller do
-
     def create
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para crear usuarios"
+        redirect_to admin_users_path, alert: "No tiene permisos para crear usuarios"
       end
     end
 
@@ -57,7 +53,7 @@ ActiveAdmin.register User do
         end
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para editar usuarios"
+        redirect_to admin_users_path, alert: "No tiene permisos para editar usuarios"
       end
     end
 
@@ -65,22 +61,21 @@ ActiveAdmin.register User do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para eliminar usuarios"
+        redirect_to admin_users_path, alert: "No tiene permisos para eliminar usuarios"
       end
     end
   end
 
   form do |f|
     f.inputs do
-      f.input :email, label: "Email"
-      f.input :username, label: "Username"
+      f.input :email
+      f.input :username
       # Set optional password fields only if the user is being created
-      f.input :password, label: "Contraseña", required: f.object.new_record?
-      if f.object.new_record? 
-        f.input :password_confirmation, label: "Confirmar contraseña"
+      f.input :password, required: f.object.new_record?
+      if f.object.new_record?
+        f.input :password_confirmation
       end
     end
     f.actions
   end
-
 end

@@ -10,4 +10,7 @@ class BranchOfficeDecorator < ApplicationDecorator
   #     end
   #   end
 
+  def shifts
+    object.shifts.count
+  end
 end
