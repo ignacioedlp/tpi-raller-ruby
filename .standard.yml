@@ -1,0 +1,5 @@
+ignore:                 # default: []
+  - 'db/schema.rb'
+  - 'db/tenants_schema.rb'
+  - 'vendor/**/*'
+  - 'db/seeds.rb'

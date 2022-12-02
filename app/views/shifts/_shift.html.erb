@@ -1,0 +1,15 @@
+
+<div class=" card col-lg-4 col-md-6 m-4" style="width: 18rem;" id="<%= dom_id shift %>">
+    <div class="card-body container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-title"><%= shift.branch_office.name %></h5>
+        <%= shift.status_span %>
+      </div>
+      <p class="card-text"><%= shift.name %> - <%= shift.hour%></p>
+    </div>
+    
+    <div class="card-body">
+      <a href="<%= shift_path(shift) %>" class="card-link text-decoration-none">Ver detalles</a>
+      <%= link_to "Borrar turno", shift, data: { turbo_method: :delete }, class: "card-link text-decoration-none" %>
+    </div>
+  </div>

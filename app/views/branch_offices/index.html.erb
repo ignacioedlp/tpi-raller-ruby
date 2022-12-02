@@ -1,0 +1,20 @@
+<div class="container">
+  <h1 class="text-center">Sucursales</h1>
+  <div class="row gx-3 justify-content-center">
+    <% @branch_offices.each do |branch_office| %>
+      <div class="card col-lg-4 col-md-6 m-4" style="width: 18rem;" id="<%= branch_office %>">
+        <div class="card-body">
+          <h5 class="card-title"><%=branch_office.name%></h5>
+          <p class="card-text"><%= branch_office.address %></p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Telefono: <%= branch_office.phone %></li>
+        </ul>
+        <div class="card-body">
+          <a href="<%= branch_office_path(branch_office) %>" class="card-link text-decoration-none">Ver sucursal</a>
+          <a href="<%= new_shift_path(branch_office_id: branch_office.id) %>" class="card-link text-decoration-none">Sacar turno</a>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

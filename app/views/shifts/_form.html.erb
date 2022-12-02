@@ -1,0 +1,34 @@
+<%= form_with(model: shift) do |form| %>
+
+  <% if shift.errors.any? %>
+    <div id="error_explanation">
+      <h5>No se a podido procesar el turno!</h5>
+
+      <ul>
+      <% shift.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label "Horario", class: "form-label" %> <br/>
+    <%= form.datetime_field :date, minute_step: 15, class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label "Razon", class: "form-label" %>
+    <%= form.text_field :reason, class: "form-control" %>
+  </div>
+  
+  <div class="mb-3">
+    <%= form.label "Sucursal", class: "form-label" %><br/>
+    <%= form.select :branch_office_id, BranchOffice.all.map { |bo| [bo.name, bo.id] }, { :selected => params[:branch_office_id] } %>
+  </div>
+
+
+  <div class="actions">
+    <%= form.submit%>
+  </div>
+<% end %>

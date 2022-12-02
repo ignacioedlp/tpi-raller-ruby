@@ -1,0 +1,10 @@
+<h1>Editar turno</h1>
+
+<%= render "form", shift: @shift %>
+
+<br>
+
+<div>
+  <%= link_to "Mostrar turno", @shift, class: "text-decoration-none" %> |
+  <%= link_to "Volver a mis turnos", shifts_path, class: "text-decoration-none" %>
+</div>
