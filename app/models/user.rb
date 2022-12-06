@@ -4,13 +4,17 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :validatable
 
-  validates :username, presence: true, uniqueness: {case_sensitive: false}
-
-  # El usuario puede tener varios shifts
-  has_many :shifts, dependent: :destroy
-
+  # Atributos
   attr_writer :login
 
+  # Relaciones
+  has_many :shifts, dependent: :destroy
+
+  # Validaciones
+  validates :username, presence: true, uniqueness: {case_sensitive: false}
+  validates :email, presence: true, uniqueness: {case_sensitive: false}
+
+  # Métodos
   def login
     @login || username || email
   end

@@ -13,6 +13,7 @@ class AdminUser < ApplicationRecord
   after_create :assign_default_role
 
   validates :username, presence: true, uniqueness: {case_sensitive: false}
+  validates :email, presence: true, uniqueness: {case_sensitive: false}
 
   validate :must_have_a_role, on: :update
   validate :if_is_staff_have_branch_office
@@ -39,7 +40,7 @@ class AdminUser < ApplicationRecord
   private
 
   def must_have_a_role
-    errors.add(:roles, "must have at least one role") unless roles.any?
+    errors.add(:roles, "Deberia de tener un rol") unless roles.any?
   end
 
   def assign_default_role

@@ -1,5 +1,77 @@
 es:
   activerecord:
+    errors: 
+      models: 
+        shift: 
+          attributes:
+            date: 
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un turno para ese día"
+            branch_office:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un turno para esa sucursal"
+            reason:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un turno para ese motivo"
+            hour:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un turno para ese horario"
+            user:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un turno para ese cliente"
+            admin_user:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un turno para ese empleado"
+        opening_hour:
+          attributes:
+            name:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un horario para ese día"
+            opens:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un horario para ese horario"
+            closes:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un horario para ese horario"
+            branch_office:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un horario para esa sucursal"
+        branch_office:
+          attributes:
+            name:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe una sucursal con ese nombre"
+            address:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe una sucursal con esa dirección"
+            phone:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe una sucursal con ese teléfono"
+        admin_user:
+          attributes:
+            email:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un empleado con ese correo"
+            username:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un empleado con ese nombre de usuario"
+            roles:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un empleado con ese rol"
+            branch_office:
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un empleado con esa sucursal"
+            password: 
+              blank: "No puede estar en blanco"
+              too_short: "Debe tener al menos 6 caracteres"
+              too_long: "Debe tener menos de 128 caracteres"
+              invalid: "Debe contener al menos una letra y un número"
+            password_confirmation:
+              blank: "No puede estar en blanco"
+              too_short: "Debe tener al menos 6 caracteres"
+              too_long: "Debe tener menos de 128 caracteres"
+              invalid: "Debe contener al menos una letra y un número"
+        
     models:
       comment:
         one: "Comentario"
@@ -60,12 +132,13 @@ es:
       shift:
         user: "Cliente"
         branch_office: "Sucursal"
+        date: "Fecha"
         hour: "Horario"
         name: "Dia"
         reason: "Motivo"
         comment: "Comentario"
         admin_user: "Empleado"
-        status: "Estado"
+        completed: "Completado"
         created_at: "Fecha de creación"
         updated_at: "Fecha de actualización"
       branch_office:
@@ -108,7 +181,7 @@ es:
         day: "Dia"
         reason: "Motivo"
         admin_user: "Empleado"
-        status: "Estado"
+        completed: "Completado"
         created_at: "Fecha de creación"
         updated_at: "Fecha de actualización"
       active_admin/branch_office:
@@ -323,6 +396,11 @@ es:
           not_found_in_database: "Nombre de usuario o contraseña inválidos."
         user:
           unauthenticated: "Debe iniciar como cliente"
+      registrations: 
+        user: 
+          updated: "Su perfil ha sido actualizado."
+          destroyed: "Su perfil ha sido eliminado."
+          signed_up: "Bienvenido"
       sessions:
         user:
           signed_in:  "Bienvenido de nuevo"

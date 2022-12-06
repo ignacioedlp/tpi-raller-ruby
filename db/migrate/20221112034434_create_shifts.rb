@@ -8,8 +8,7 @@ class CreateShifts < ActiveRecord::Migration[7.0]
 
       t.datetime "date"
       t.text "reason"
-      t.string "status", default: "Pendiente", null: false
-
+      t.boolean "completed", default: false, null: false
       t.index ["branch_office_id", "user_id"], name: "index_branch_offices_users_on_branch_office_id_and_user_id"
 
       t.timestamps

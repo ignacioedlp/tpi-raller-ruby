@@ -29,7 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_014559) do
   end
 
   create_table "admin_users", force: :cascade do |t|
-    t.string "email", default: "", null: false
+    t.string "email", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -60,6 +60,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_014559) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "offices", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "address", null: false
+    t.bigint "phone", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "offices_opening_hours", id: false, force: :cascade do |t|
+    t.bigint "office_id", null: false
+    t.bigint "opening_hour_id", null: false
+    t.index ["office_id"], name: "index_offices_opening_hours_on_office_id"
+    t.index ["opening_hour_id"], name: "index_offices_opening_hours_on_opening_hour_id"
+  end
+
   create_table "opening_hours", force: :cascade do |t|
     t.bigint "branch_office_id"
     t.integer "day"
@@ -83,7 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_014559) do
     t.bigint "user_id"
     t.datetime "date"
     t.text "reason"
-    t.string "status", default: "Pendiente", null: false
+    t.boolean "completed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "admin_user_id"
@@ -95,7 +110,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_014559) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
+    t.string "email", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
