@@ -1,17 +1,8 @@
 ActiveAdmin.register OpeningHour do
   menu label: proc { I18n.t("active_admin.title.opening_hours") }
   decorate_with OpeningHourDecorator
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  # permit_params :branch_office_id, :day, :opens, :closes
-  #
-  # or
-  #
+
   permit_params do
-    # Convert day to integer to save in database
     permitted = [:branch_office_id, :day, :opens, :closes]
     permitted
   end
@@ -67,8 +58,8 @@ ActiveAdmin.register OpeningHour do
 
   form do |f|
     f.inputs do
-      f.input :branch_office, as: :select, collection: BranchOffice.all
-      f.input :day, as: :select, collection: OpeningHour::DAYS
+      f.input :branch_office, as: :select, collection: BranchOffice.all, include_blank: false
+      f.input :day, as: :select, collection: OpeningHour::DAYS, selected: f.object.day, include_blank: false
       f.input :opens, as: :time_picker
       f.input :closes, as: :time_picker
     end

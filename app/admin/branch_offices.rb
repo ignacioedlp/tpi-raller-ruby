@@ -1,22 +1,10 @@
 ActiveAdmin.register BranchOffice do
   menu label: proc { I18n.t("active_admin.title.branch_offices") }
   decorate_with BranchOfficeDecorator
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
+
   permit_params :name,
     :address,
     :phone
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:name, :address, :phone]
-  #   permitted << :other if params[:action] == 'create' && current_user.has_role?(:admin)
-  #   permitted
-  # end
 
   index do
     selectable_column
@@ -36,7 +24,6 @@ ActiveAdmin.register BranchOffice do
       row :created_at
     end
 
-    # Mostrar un panel con los horarios por dia de Lunes a Domingo
     panel "Horarios de atencion" do
       attributes_table_for branch_office.opening_hours.decorate do
         row :name

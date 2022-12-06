@@ -1,8 +1,10 @@
 class BranchOffice < ApplicationRecord
+  # Relaciones
   has_many :opening_hours, inverse_of: :branch_office, autosave: true
   has_many :shifts, inverse_of: :branch_office
   has_many :admin_users, inverse_of: :branch_office, autosave: true
 
+  # Validaciones
   validates :name, presence: true
   validates :address, presence: true
   validates :phone, presence: true

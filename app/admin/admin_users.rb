@@ -2,6 +2,8 @@ ActiveAdmin.register AdminUser do
   menu label: proc { I18n.t("active_admin.title.admin_users") }
   permit_params :email, :password, :branch_office_id, :username, :password_confirmation, :id, role_ids: []
 
+  config.sort_order = "username_asc"
+
   index do
     selectable_column
     id_column
@@ -45,8 +47,6 @@ ActiveAdmin.register AdminUser do
         end
         super
       elsif current_admin_user.id == params[:id].to_i
-        # Si el usuario que esta editando es el mismo que esta logueado entonces puede editar sus datos
-        pp "soy yo"
         if params[:admin_user][:password].blank?
           params[:admin_user].delete("password")
         end

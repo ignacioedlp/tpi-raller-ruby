@@ -6,7 +6,7 @@
       <span class="mb-2 text-2xl font-medium text-gray-900 title-font">Horario del turno: <%= @shift.day_with_hour %></span>
       <span class="mb-2 text-2xl font-medium text-gray-900 title-font">Razon del turno: <%= @shift.reason  %></span>
       <span class="mb-2 text-2xl font-medium text-gray-900 title-font">Comentario del turno: <%= @shift.comment %></span>
-      <span class="mb-2 text-2xl font-medium text-gray-900 title-font">Estado del turno: <%= @shift.status %></span>
+      <span class="mb-2 text-2xl font-medium text-gray-900 title-font">Estado del turno:  <%= @shift.status_span %></span>
       <div class="d-flex flex-column mb-3">
         <div><%= link_to "Editar turno", edit_shift_path(@shift), class: "text-lg text-decoration-none" %> </div>
         <div><%= link_to "Borrar turno", @shift, data: { turbo_method: :delete },class: "text-lg text-decoration-none" %></div>

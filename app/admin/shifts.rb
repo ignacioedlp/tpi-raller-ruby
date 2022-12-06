@@ -1,20 +1,10 @@
 ActiveAdmin.register Shift do
   menu label: proc { I18n.t("active_admin.title.shifts") }
   decorate_with ShiftDecorator
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  permit_params :date, :branch_office_id, :user_id, :reason, :status, :admin_user_id, :comment
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:branch_office_id, :user_id, :day, :hour, :reason, :status]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
+
+  permit_params :date, :branch_office_id, :user_id, :reason, :completed, :admin_user_id, :comment
+
+  actions :all, except: [:new]
 
   index do
     selectable_column
@@ -25,7 +15,7 @@ ActiveAdmin.register Shift do
     column :hour
     column :reason
     column :admin_user
-    column :status
+    column :completed
     actions
   end
 
@@ -37,15 +27,13 @@ ActiveAdmin.register Shift do
       row :hour
       row :reason
       row :admin_user
-      row :status
+      row :completed
       row :comment
       row :created_at
     end
   end
 
-  # Custom update
   controller do
-    # Solamente traer los shifts de la misma sucursal del empleado que son staff
     def scoped_collection
       if current_admin_user.has_role?(:staff) && (!current_admin_user.has_role? :admin)
         Shift.where(branch_office_id: current_admin_user.branch_office_id)
@@ -57,7 +45,7 @@ ActiveAdmin.register Shift do
 
   filter :user
   filter :date
-  filter :status
+  filter :completed
 
   controller do
     def scoped_collection
@@ -100,9 +88,9 @@ ActiveAdmin.register Shift do
       f.input :branch_office
       f.input :user
       f.input :admin_user, input_html: {value: current_admin_user.id}
-      f.input :date, as: :date_time_picker
+      f.input :date, as: :datetime_picker
       f.input :reason
-      f.input :status, as: :select, collection: Shift::STATUSES
+      f.input :completed
       f.input :comment
     end
     f.actions
