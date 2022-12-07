@@ -26,10 +26,20 @@ class Shift < ApplicationRecord
   validate :the_user_has_no_shifts_at_the_same_time_in_the_same_day, on: :create
   validate :date_must_be_in_the_future
 
+  before_destroy :check_if_completed
+
+  def check_if_completed
+    if completed == true
+      errors.add(:base, "No se puede eliminar un turno completado")
+      throw(:abort)
+    end
+  end
+
+
   # Métodos
   def the_user_has_no_shifts_at_the_same_time_in_the_same_day
     if date.present? && user.present?
-      if user.shifts.find_by(date: date.beginning_of_day..date.end_of_day)
+      if user.shifts.where(completed: false, branch_office_id: branch_office_id).find_by(date: date.beginning_of_day..date.end_of_day)
         errors.add(:date, "el usuario ya tiene un turno en ese día")
       end
     end

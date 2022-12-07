@@ -74,7 +74,11 @@ ActiveAdmin.register BranchOffice do
 
     def destroy
       if current_admin_user.has_role? :admin
-        super
+        if resource.destroy
+          redirect_to admin_branch_offices_path, notice: "Sucursal eliminada!"
+        else 
+          redirect_to admin_branch_offices_path, alert: "No se puede eliminar una sucursal con turnos pendientes"
+        end
       else
         redirect_to admin_branch_offices_path, alert: "No tiene permisos para eliminar sucursales"
       end

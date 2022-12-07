@@ -1,4 +1,5 @@
 ActiveAdmin.register User do
+  
   menu label: proc { I18n.t("active_admin.title.users") }
 
   permit_params :email, :username, :password, :password_confirmation
