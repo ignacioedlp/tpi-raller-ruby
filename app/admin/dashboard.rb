@@ -8,6 +8,13 @@ ActiveAdmin.register_page "Dashboard" do
 
     columns do
       column do
+        panel "Turnos sucursales" do
+          table_for BranchOffice.all.decorate do
+            column "Surcusal", :name
+            column "Turnos completados", :shifts_completed
+            column "Turnos pendientes", :shifts_pending
+          end
+        end
         panel "Ultimos 5 usuarios registrados" do
           table_for @users do
             column :email

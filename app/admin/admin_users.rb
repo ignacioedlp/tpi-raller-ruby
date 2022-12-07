@@ -1,8 +1,25 @@
 ActiveAdmin.register AdminUser do
   menu label: proc { I18n.t("active_admin.title.admin_users") }
   permit_params :email, :password, :branch_office_id, :username, :password_confirmation, :id, role_ids: []
+  decorate_with AdminUserDecorator
 
   config.sort_order = "username_asc"
+
+  config.remove_action_item :new
+  config.remove_action_item :destroy
+  config.remove_action_item :edit
+
+  action_item :new, only: :index do
+    link_to "Crear empleado", new_admin_admin_user_path if current_admin_user.has_role? :admin
+  end
+
+  action_item :edit, only: :show do
+    link_to "Editar empleado", edit_admin_admin_user_path if current_admin_user.has_role? :admin
+  end
+
+  action_item :destroy, only: :show do
+    link_to "Eliminar empleado", admin_admin_user_path, method: :delete, data: {confirm: "¿Está seguro que desea eliminar este empleado?"} if current_admin_user.has_role? :admin
+  end
 
   index do
     selectable_column
@@ -11,9 +28,11 @@ ActiveAdmin.register AdminUser do
     column :username
     column :branch_office
     column :roles
-    column :created_at
-    column :updated_at
-    actions
+    actions defaults: false do |admin_user|
+      item "Ver", admin_admin_user_path(admin_user), class: "member_link"
+      item "Editar", edit_admin_admin_user_path(admin_user), class: "member_link" if current_admin_user.has_role? :admin
+      item "Eliminar", admin_admin_user_path(admin_user), method: :delete, data: {confirm: "¿Está seguro que desea eliminar esta sucursal?"}, class: "member_link" if current_admin_user.has_role? :admin
+    end
   end
 
   show do

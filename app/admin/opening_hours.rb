@@ -2,6 +2,22 @@ ActiveAdmin.register OpeningHour do
   menu label: proc { I18n.t("active_admin.title.opening_hours") }
   decorate_with OpeningHourDecorator
 
+  config.remove_action_item :new
+  config.remove_action_item :destroy
+  config.remove_action_item :edit
+
+  action_item :new, only: :index do
+    link_to "Crear horario", new_admin_opening_hour_path if current_admin_user.has_role? :admin
+  end
+
+  action_item :edit, only: :show do
+    link_to "Editar horario", edit_admin_opening_hour_path if current_admin_user.has_role? :admin
+  end
+
+  action_item :destroy, only: :show do
+    link_to "Eliminar horario", admin_opening_hour_path, method: :delete, data: {confirm: "¿Está seguro que desea eliminar este horario?"} if current_admin_user.has_role? :admin
+  end
+
   permit_params do
     permitted = [:branch_office_id, :day, :opens, :closes]
     permitted
@@ -14,7 +30,11 @@ ActiveAdmin.register OpeningHour do
     column :name
     column :opens
     column :closes
-    actions
+    actions defaults: false do |opening_hour|
+      item "Ver", admin_opening_hour_path(opening_hour), class: "member_link"
+      item "Editar", edit_admin_opening_hour_path(opening_hour), class: "member_link" if current_admin_user.has_role? :admin
+      item "Eliminar", admin_opening_hour_path(opening_hour), method: :delete, data: {confirm: "¿Está seguro que desea eliminar este horario?"}, class: "member_link" if current_admin_user.has_role? :admin
+    end
   end
 
   show do

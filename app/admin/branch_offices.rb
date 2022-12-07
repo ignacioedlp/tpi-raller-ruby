@@ -2,6 +2,22 @@ ActiveAdmin.register BranchOffice do
   menu label: proc { I18n.t("active_admin.title.branch_offices") }
   decorate_with BranchOfficeDecorator
 
+  config.remove_action_item :new
+  config.remove_action_item :destroy
+  config.remove_action_item :edit
+
+  action_item :new, only: :index do
+    link_to "Crear sucursal", new_admin_branch_office_path if current_admin_user.has_role? :admin
+  end
+
+  action_item :edit, only: :show do
+    link_to "Editar sucursal", edit_admin_branch_office_path if current_admin_user.has_role? :admin
+  end
+
+  action_item :destroy, only: :show do
+    link_to "Eliminar sucursal", admin_branch_office_path, method: :delete, data: {confirm: "¿Está seguro que desea eliminar esta sucursal?"} if current_admin_user.has_role? :admin
+  end
+
   permit_params :name,
     :address,
     :phone
@@ -13,7 +29,11 @@ ActiveAdmin.register BranchOffice do
     column :address
     column :phone
     column :shifts
-    actions
+    actions defaults: false do |branch_office|
+      item "Ver", admin_branch_office_path(branch_office), class: "member_link"
+      item "Editar", edit_admin_branch_office_path(branch_office), class: "member_link" if current_admin_user.has_role? :admin
+      item "Eliminar", admin_branch_office_path(branch_office), method: :delete, data: {confirm: "¿Está seguro que desea eliminar esta sucursal?"}, class: "member_link" if current_admin_user.has_role? :admin
+    end
   end
 
   show do

@@ -33,9 +33,6 @@ gem "devise"
 # Roles for application
 gem "rolify"
 
-# Roles authorization
-gem "pundit"
-
 # Linter
 gem "standard"
 

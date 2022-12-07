@@ -1,38 +1,42 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
 
-puts "Loading seeds"
-# Inserto los seeds solo en el caso en el que no exitan usuarios
+puts "Iniciando carga de seeds"
+sucursal_la_plata = BranchOffice.create!({name: "La Plata 1", address: "Calle falsa 123", phone: "12345678"})
+sucursal_buenos_aires = BranchOffice.create!({name: "Buenos Aires 1", address: "Calle falsa 123", phone: "12345678"})
+sucursal_rosario = BranchOffice.create!({name: "Rosario 1", address: "Calle falsa 123", phone: "12345678"})
 
-puts "Creating users admin, staff and client"
 
-branch_office = BranchOffice.create!({name: "Sucursal 1", address: "Calle falsa 123", phone: "12345678"})
-branch_office2 = BranchOffice.create!({name: "Sucursal 2", address: "Calle falsa 123", phone: "12345678"})
-branch_office3 = BranchOffice.create!({name: "Sucursal 3", address: "Calle falsa 123", phone: "12345678"})
-branch_office4 = BranchOffice.create!({name: "Sucursal 4", address: "Calle falsa 123", phone: "12345678"})
-branch_office5 = BranchOffice.create!({name: "Sucursal 5", address: "Calle falsa 123", phone: "12345678"})
+puts "Sucursales cargadas 🚀"
 
-lunes = OpeningHour.create!({day: 1, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
-martes = OpeningHour.create!({day: 2, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
-miercoles = OpeningHour.create!({day: 3, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
+for branch_office in BranchOffice.all
+  for i in 1..7
+    OpeningHour.create!({day: i, opens: "08:00", closes: "18:00", branch_office_id: branch_office.id})
+  end
+end
 
-jueves = OpeningHour.create!({day: 4, opens: "08:00", closes: "18:00", branch_office_id: branch_office2.id})
-viernes = OpeningHour.create!({day: 5, opens: "08:00", closes: "18:00", branch_office_id: branch_office2.id})
-sabado = OpeningHour.create!({day: 6, opens: "08:00", closes: "18:00", branch_office_id: branch_office2.id})
+puts "Horarios cargados 🚀"
 
-admin = AdminUser.create!({username: "administrador", email: "administrador@tpi.com", password: "password", password_confirmation: "password"})
+administrador = AdminUser.create!({username: "admin", email: "admin@turno5.com", password: "password", password_confirmation: "password"}).add_role :admin
 
-admin.add_role :admin
+operador_bancario_la_plata = AdminUser.create!({username: "operador_lp", email: "operoperador_lpador@turno5.com", password: "password", password_confirmation: "password", branch_office_id: sucursal_la_plata.id}).add_role :staff
 
-operador_bancario = AdminUser.create!({username: "operador", email: "operador@tpi.com", password: "password", password_confirmation: "password", branch_office_id: branch_office.id})
+operador_bancario_buenos_aires = AdminUser.create!({username: "operador_bsas", email: "operador_bsas@turno5.com", password: "password", password_confirmation: "password", branch_office_id: sucursal_buenos_aires.id}).add_role :staff
 
-user = User.create!({username: "cliente", email: "cliente@tpi.com", password: "password", password_confirmation: "password"})
+operador_bancario_rosario = AdminUser.create!({username: "operador_ros", email: "operador_ros@turno5.com", password: "password", password_confirmation: "password", branch_office_id: sucursal_rosario.id}).add_role :staff
 
-turno = Shift.create!(date: "2022-11-08 10:00:00", branch_office_id: branch_office.id, user_id: user.id)
+puts "Empleados cargados 🚀"
 
-puts "Finish loading seeds"
+ignacio = User.create!({username: "ignacio", email: "ignacio@gmail.com", password: "password", password_confirmation: "password"})
+
+agus = User.create!({username: "agustin", email: "agustin@gmail.com", password: "password", password_confirmation: "password"})
+
+juan = User.create!({username: "juan", email: "juan@gmail.com", password: "password", password_confirmation: "password"})
+
+puts "Clientes cargados 🚀"
+
+turno_1_ignacio = Shift.create!(date: "2022-12-12 10:00:00", branch_office_id: sucursal_la_plata.id, user_id: ignacio.id, reason: "Retiro de dinero")
+turno_1_agus = Shift.create!(date: "2022-12-12 10:00:00", branch_office_id: sucursal_buenos_aires.id, user_id: agus.id, reason: "Problema con la tarjeta")
+turno_1_juan = Shift.create!(date: "2022-12-12 10:00:00", branch_office_id: sucursal_rosario.id, user_id: juan.id, reason: "Problema con la cuenta")
+
+puts "Turnos cargados pendientes 🚀"
+
+puts "Seeds cargados 🚀"

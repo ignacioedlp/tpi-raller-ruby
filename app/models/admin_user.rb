@@ -10,8 +10,6 @@ class AdminUser < ApplicationRecord
 
   attr_writer :login
 
-  after_create :assign_default_role
-
   validates :username, presence: true, uniqueness: {case_sensitive: false}
   validates :email, presence: true, uniqueness: {case_sensitive: false}
 
@@ -41,9 +39,5 @@ class AdminUser < ApplicationRecord
 
   def must_have_a_role
     errors.add(:roles, "Deberia de tener un rol") unless roles.any?
-  end
-
-  def assign_default_role
-    add_role(:staff) if roles.blank?
   end
 end

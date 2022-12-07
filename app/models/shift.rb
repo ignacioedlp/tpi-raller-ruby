@@ -23,13 +23,15 @@ class Shift < ApplicationRecord
   # Validaciones customs
   validate :hour_is_between_opening_and_closing_hours
   validate :comment_and_admin_user_are_present_if_completed
-  validate :the_user_has_no_shifts_at_the_same_time, on: :create
+  validate :the_user_has_no_shifts_at_the_same_time_in_the_same_day, on: :create
   validate :date_must_be_in_the_future
 
   # Métodos
-  def the_user_has_no_shifts_at_the_same_time
-    if Shift.where(user_id: user_id, date: date).any?
-      errors.add(:date, "El usuario ya tiene un turno para ese dia")
+  def the_user_has_no_shifts_at_the_same_time_in_the_same_day
+    if date.present? && user.present?
+      if user.shifts.find_by(date: date.beginning_of_day..date.end_of_day)
+        errors.add(:date, "el usuario ya tiene un turno en ese día")
+      end
     end
   end
 
