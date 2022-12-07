@@ -10,6 +10,8 @@
     
     <div class="card-body">
       <a href="<%= shift_path(shift) %>" class="card-link text-decoration-none">Ver detalles</a>
-      <%= link_to "Borrar turno", shift, data: { turbo_method: :delete }, class: "card-link text-decoration-none" %>
+      <% if not shift.completed? %>
+        <%= link_to "Borrar turno", shift, data: { turbo_method: :delete }, class: "card-link text-decoration-none" %>
+      <% end %>
     </div>
   </div>

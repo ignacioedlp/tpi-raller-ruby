@@ -13,9 +13,10 @@ class BranchOffice < ApplicationRecord
   before_destroy :check_for_shifts
 
   def check_for_shifts
-    if shifts.any?
-      errors.add("No se puede borrar una sucursal con turnos")
-      throw :abort
+    #si tengp turnos pendientes no puedo eliminar
+    if shifts.where(completed: false).any?
+      errors.add(:base, "No se puede eliminar una sucursal con turnos pendientes")
+      throw(:abort)
     end
   end
 end

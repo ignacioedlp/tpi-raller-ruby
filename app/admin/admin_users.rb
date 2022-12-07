@@ -1,5 +1,7 @@
 ActiveAdmin.register AdminUser do
   menu label: proc { I18n.t("active_admin.title.admin_users") }
+  menu label: "Empleados", if: proc { current_admin_user.has_role? :admin }
+
   permit_params :email, :password, :branch_office_id, :username, :password_confirmation, :id, role_ids: []
   decorate_with AdminUserDecorator
 
@@ -7,14 +9,9 @@ ActiveAdmin.register AdminUser do
 
   config.remove_action_item :new
   config.remove_action_item :destroy
-  config.remove_action_item :edit
 
   action_item :new, only: :index do
     link_to "Crear empleado", new_admin_admin_user_path if current_admin_user.has_role? :admin
-  end
-
-  action_item :edit, only: :show do
-    link_to "Editar empleado", edit_admin_admin_user_path if current_admin_user.has_role? :admin
   end
 
   action_item :destroy, only: :show do
@@ -51,6 +48,17 @@ ActiveAdmin.register AdminUser do
   filter :roles
 
   controller do
+
+    def edit 
+      if current_admin_user.has_role? :admin
+        super
+      elsif current_admin_user.id == params[:id].to_i
+        super
+      else
+        redirect_to admin_admin_users_path, alert: "No tiene permisos para editar usuarios administradores"
+      end
+    end
+
     def create
       if current_admin_user.has_role? :admin
         super
@@ -90,8 +98,8 @@ ActiveAdmin.register AdminUser do
     f.inputs do
       f.input :email
       f.input :username
-      f.input :branch_office, as: :select, collection: BranchOffice.all
-      f.input :roles, as: :check_boxes, collection: Role.all
+      f.input :branch_office, as: :select, collection: BranchOffice.all if current_admin_user.has_role? :admin
+      f.input :roles, as: :check_boxes, collection: Role.all if current_admin_user.has_role? :admin
       f.input :password, required: f.object.new_record?
       if f.object.new_record?
         f.input :password_confirmation
