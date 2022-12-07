@@ -48,8 +48,7 @@ ActiveAdmin.register AdminUser do
   filter :roles
 
   controller do
-
-    def edit 
+    def edit
       if current_admin_user.has_role? :admin
         super
       elsif current_admin_user.id == params[:id].to_i

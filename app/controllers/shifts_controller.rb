@@ -53,7 +53,6 @@ class ShiftsController < ApplicationController
       return
     end
 
-
     respond_to do |format|
       format.html { redirect_to shifts_url, notice: "Turno eliminado!" }
     end

@@ -1,6 +1,6 @@
 ActiveAdmin.register Shift do
   menu label: proc { I18n.t("active_admin.title.shifts") }
-  
+
   decorate_with ShiftDecorator
 
   permit_params :date, :branch_office_id, :user_id, :reason, :completed, :admin_user_id, :comment
