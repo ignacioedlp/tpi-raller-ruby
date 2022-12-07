@@ -5,6 +5,17 @@ ActiveAdmin.register User do
 
   actions :all, except: [:new]
 
+  config.remove_action_item :destroy
+  config.remove_action_item :edit
+
+  action_item :edit, only: :show do
+    link_to "Editar cliente", edit_admin_user_path if current_admin_user.has_role? :admin
+  end
+
+  action_item :destroy, only: :show do
+    link_to "Eliminar cliente", admin_user_path, method: :delete, data: {confirm: "¿Está seguro que desea eliminar este cliente?"} if current_admin_user.has_role? :admin
+  end
+
   index do
     selectable_column
     id_column
@@ -12,7 +23,11 @@ ActiveAdmin.register User do
     column :username
     column :created_at
     column :updated_at
-    actions
+    actions defaults: false do |user|
+      item "Ver", admin_user_path(user), class: "member_link"
+      item "Editar", edit_admin_user_path(user), class: "member_link" if current_admin_user.has_role? :admin
+      item "Eliminar", admin_user_path(user), method: :delete, data: {confirm: "¿Está seguro que desea eliminar este cliente?"}, class: "member_link" if current_admin_user.has_role? :admin
+    end
   end
 
   show do

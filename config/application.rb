@@ -16,7 +16,8 @@ module App
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    # time zone of buenos aires
+    config.time_zone = "Buenos Aires"
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end

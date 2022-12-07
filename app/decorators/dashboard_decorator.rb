@@ -1,6 +1,4 @@
-class BranchOfficeDecorator < ApplicationDecorator
-  delegate_all
-
+class DashboardDecorator < ApplicationDecorator
   def shifts
     object.shifts.count
   end

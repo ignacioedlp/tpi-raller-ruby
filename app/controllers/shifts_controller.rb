@@ -16,8 +16,7 @@ class ShiftsController < ApplicationController
   end
 
   def edit
-    if @shift.status == "Pendiente"
-
+    if !@shift.completed?
       @branch_office = BranchOffice.find(@shift.branch_office_id)
     else
       redirect_to shifts_path, alert: "No se puede editar un turno que ya fue aceptado o rechazado"
