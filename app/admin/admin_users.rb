@@ -9,6 +9,7 @@ ActiveAdmin.register AdminUser do
 
   config.remove_action_item :new
   config.remove_action_item :destroy
+  config.remove_action_item :new
 
   action_item :new, only: :index do
     link_to "Crear empleado", new_admin_admin_user_path if current_admin_user.has_role? :admin
