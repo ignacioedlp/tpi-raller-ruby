@@ -48,14 +48,31 @@ ActiveAdmin.register AdminUser do
   filter :roles
 
   controller do
+    def index
+      if current_admin_user.has_role? :admin
+        super
+      else
+        redirect_to admin_dashboard_path, alert: "No tiene permisos para ver usuarios administradores"
+      end
+    end
 
-    def edit 
+    def show
       if current_admin_user.has_role? :admin
         super
       elsif current_admin_user.id == params[:id].to_i
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para editar usuarios administradores"
+        redirect_to admin_dashboard_path, alert: "No tiene permisos para ver usuarios administradores"
+      end
+    end
+
+    def edit
+      if current_admin_user.has_role? :admin
+        super
+      elsif current_admin_user.id == params[:id].to_i
+        super
+      else
+        redirect_to admin_dashboard_path, alert: "No tiene permisos para editar usuarios administradores"
       end
     end
 
@@ -63,7 +80,7 @@ ActiveAdmin.register AdminUser do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para crear usuarios administradores"
+        redirect_to admin_dashboard_path, alert: "No tiene permisos para crear usuarios administradores"
       end
     end
 
@@ -81,7 +98,7 @@ ActiveAdmin.register AdminUser do
         params[:admin_user].delete("branch_office_id")
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para editar usuarios administradores"
+        redirect_to admin_dashboard_path, alert: "No tiene permisos para editar usuarios administradores"
       end
     end
 
@@ -89,7 +106,7 @@ ActiveAdmin.register AdminUser do
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_admin_users_path, alert: "No tiene permisos para eliminar usuarios administradores"
+        redirect_to admin_dashboard_path, alert: "No tiene permisos para eliminar usuarios administradores"
       end
     end
   end

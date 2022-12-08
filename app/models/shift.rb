@@ -35,7 +35,6 @@ class Shift < ApplicationRecord
     end
   end
 
-
   # Métodos
   def the_user_has_no_shifts_at_the_same_time_in_the_same_day
     if date.present? && user.present?

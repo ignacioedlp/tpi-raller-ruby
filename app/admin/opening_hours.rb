@@ -49,6 +49,14 @@ ActiveAdmin.register OpeningHour do
   filter :branch_office
 
   controller do
+    def edit
+      if current_admin_user.has_role? :admin
+        super
+      else
+        redirect_to admin_opening_hours_path, alert: "No tiene permisos para editar horarios"
+      end
+    end
+
     def create
       if current_admin_user.has_role? :admin
         params[:opening_hour][:day] = params[:opening_hour][:day].to_i

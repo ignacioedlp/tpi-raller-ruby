@@ -1,6 +1,6 @@
 ActiveAdmin.register Shift do
   menu label: proc { I18n.t("active_admin.title.shifts") }
-  
+
   decorate_with ShiftDecorator
 
   permit_params :date, :branch_office_id, :user_id, :reason, :completed, :admin_user_id, :comment
@@ -71,8 +71,16 @@ ActiveAdmin.register Shift do
       end
     end
 
+    def new
+      redirect_to admin_shifts_path, alert: "Los turnos solamente los crea un cliente!"
+    end
+
+    def create
+      redirect_to admin_shifts_path, alert: "Los turnos solamente los crea un cliente!"
+    end
+
     def update
-      if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id
+      if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id && (current_admin_user.has_role? :staff)
         super
       else
         redirect_to admin_shifts_path, alert: "No tiene permisos para actualizar turnos de otras sucursales"
@@ -80,7 +88,7 @@ ActiveAdmin.register Shift do
     end
 
     def destroy
-      if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id
+      if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id && (current_admin_user.has_role? :staff)
         super
       else
         redirect_to admin_shifts_path, alert: "No tiene permisos para eliminar turnos"

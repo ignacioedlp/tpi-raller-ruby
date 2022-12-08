@@ -1,5 +1,4 @@
 ActiveAdmin.register User do
-  
   menu label: proc { I18n.t("active_admin.title.users") }
 
   permit_params :email, :username, :password, :password_confirmation
@@ -8,6 +7,7 @@ ActiveAdmin.register User do
 
   config.remove_action_item :destroy
   config.remove_action_item :edit
+  config.remove_action_item :new
 
   action_item :edit, only: :show do
     link_to "Editar cliente", edit_admin_user_path if current_admin_user.has_role? :admin
@@ -43,9 +43,24 @@ ActiveAdmin.register User do
   filter :username
 
   controller do
+    def new
+      if current_admin_user.has_role? :admin
+        super
+      else
+        redirect_to admin_users_path, alert: "No tiene permisos para crear usuarios"
+      end
+    end
+
+    def create
+      if current_admin_user.has_role? :admin
+        super
+      else
+        redirect_to admin_users_path, alert: "No tiene permisos para crear usuarios"
+      end
+    end
+
     def update
       if current_admin_user.has_role? :admin
-        # Si no se introduce una contraseña, se mantiene la actual
         if params[:user][:password].blank?
           params[:user].delete("password")
         end
