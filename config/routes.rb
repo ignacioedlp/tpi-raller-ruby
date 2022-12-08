@@ -13,7 +13,13 @@ Rails.application.routes.draw do
   # add prefix to route users
   devise_for :users, path: "my"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  resources :branch_offices, only: [:index, :show]
+  # Las rutas de branch_offices son solo show , index , and opening_hours
+  resources :branch_offices, only: [:index, :show, :opening_hours] do
+    collection do
+      get :opening_hours
+    end
+  end
+
   resources :shifts, only: [:index, :show, :new, :create, :edit, :update, :destroy]
 
   # Defines the root path route ("/")

@@ -1,8 +1,14 @@
 <div class="container">
   <h1 class="text-center">Mis turnos</h1>
   <div class="row gx-3 justify-content-center">
-    <% @shifts.each do |shift| %>
-      <%= render shift %>
+  <%# Si tiene turnos los muestro sino le digo que no tiene %>
+  <div class="" id="shifts">
+    <% if @shifts.any? %>
+      <% @shifts.each do |shift| %>
+        <%= render shift %>
+      <% end %>
+    <% else %>
+      <p class="text-center">No tienes turnos</p>
     <% end %>
   </div>
 </div>

@@ -1,5 +1,5 @@
 class BranchOfficesController < ApplicationController
-  before_action :set_branch_office, only: %i[show edit update destroy]
+  before_action :set_branch_office, only: %i[show]
 
   def index
     @branch_offices = BranchOffice.all
@@ -7,6 +7,13 @@ class BranchOfficesController < ApplicationController
 
   def show
     @opening_hours = OpeningHour.days_with_index_and_name_and_opens_and_closes(@branch_office)
+  end
+
+  def opening_hours
+    @opening_hours = OpeningHour.days_with_index_and_name_and_opens_and_closes(BranchOffice.find(params[:branch_office]))
+    respond_to do |format|
+      format.json { render json: @opening_hours }
+    end
   end
 
   private

@@ -3,7 +3,7 @@ class ShiftsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @shifts = Shift.where(user_id: current_user.id).decorate
+    @shifts = Shift.where(user_id: current_user.id).order(date: :desc).decorate
   end
 
   def show
@@ -30,7 +30,7 @@ class ShiftsController < ApplicationController
       if @shift.save
         format.html { redirect_to shift_url(@shift), notice: "Turno creado!" }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { redirect_to shifts_url, notice: "No se pudo crear el turno!" }
       end
     end
   end
@@ -40,7 +40,7 @@ class ShiftsController < ApplicationController
       if @shift.update(shift_params)
         format.html { redirect_to shift_url(@shift), notice: "Turno actualizado!" }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { redirect_to shifts_url, notice: "No se pudo actualizar el turno!" }
       end
     end
   end
@@ -52,7 +52,6 @@ class ShiftsController < ApplicationController
       redirect_to shifts_path, alert: "No se puede eliminar un turno que ya fue completado!"
       return
     end
-
 
     respond_to do |format|
       format.html { redirect_to shifts_url, notice: "Turno eliminado!" }

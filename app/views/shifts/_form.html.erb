@@ -12,21 +12,39 @@
     </div>
   <% end %>
 
-  <div class="mb-3">
-    <%= form.label "Horario", class: "form-label" %> <br/>
-    <%= form.datetime_field :date, minute_step: 15, class: "form-select" %>
-  </div>
+  <div data-controller="office" >
+    <div class="mb-3">
+      <%= form.label "Horario", class: "form-label" %> <br/>
+      <%= form.datetime_field :date, minute_step: 15, class: "form-select" %>
+    </div>
 
-  <div class="mb-3">
-    <%= form.label "Razon", class: "form-label" %>
-    <%= form.text_field :reason, class: "form-control" %>
-  </div>
-  
-  <div class="mb-3">
-    <%= form.label "Sucursal", class: "form-label" %><br/>
-    <%= form.select :branch_office_id, BranchOffice.all.map { |bo| [bo.name, bo.id] }, { :selected => params[:branch_office_id] } %>
-  </div>
+    <div class="mb-3">
+      <%= form.label "Razon", class: "form-label" %>
+      <%= form.text_field :reason, class: "form-control" %>
+    </div>
+    
+    <div class="mb-3">
+      <%= form.label "Sucursal", class: "form-label" %><br/>
+      <%= form.select :branch_office_id, BranchOffice.all.map { |bo| [bo.name, bo.id] }, { input_html: {value: @branch_office.id } }, { class: "form-select", data: { action: "change->office#change" } } %>
+    </div>
+    
+    <h3 class="my-2 text-2xl font-medium text-gray-900 title-font">Horarios</h3>
+    <div id="openingHours" data-office-target="openingHours" class="mb-1">
+      <ul class="list-group list-group-horizontal ">
+        <li class="list-group-item w-25 fw-bolder">Dia</li>
+        <li class="list-group-item w-25 fw-bolder">Abre</li>
+        <li class="list-group-item w-25 fw-bolder">Cierra</li>
+      </ul>
+      <% OpeningHour.days_with_index_and_name_and_opens_and_closes(BranchOffice.find(@branch_office.id)).each do |day| %> 
+      <ul class="list-group list-group-horizontal ">
+        <li class="list-group-item w-25"><%= day[:name] %></li>
+        <li class="list-group-item w-25"><%= day[:opens] %></li>
+        <li class="list-group-item w-25"><%= day[:closes] %></li>
+      </ul>
+      <% end %>
+    </div>
 
+  </div>
 
   <div class="actions">
     <%= form.submit "Guardar turno", class: "btn btn-primary" %>
