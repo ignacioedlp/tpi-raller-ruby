@@ -19,7 +19,7 @@ class ShiftsController < ApplicationController
     if !@shift.completed?
       @branch_office = BranchOffice.find(@shift.branch_office_id)
     else
-      redirect_to shifts_path, alert: "No se puede editar un turno que ya fue aceptado o rechazado"
+      redirect_to shifts_path, alert: "No se puede editar un turno que ya fue completado!"
     end
   end
 

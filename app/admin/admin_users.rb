@@ -67,6 +67,14 @@ ActiveAdmin.register AdminUser do
       end
     end
 
+    def new 
+      if current_admin_user.has_role? :admin
+        super
+      else
+        redirect_to admin_dashboard_path, alert: "No tiene permisos para crear usuarios administradores"
+      end
+    end
+
     def edit
       if current_admin_user.has_role? :admin
         super

@@ -15,13 +15,19 @@ end
 
 puts "Horarios cargados 🚀"
 
-administrador = AdminUser.create!({username: "admin", email: "admin@turno5.com", password: "password", password_confirmation: "password"}).add_role :admin
+Role.create!({name: "admin"})
+Role.create!({name: "staff"})
 
-operador_bancario_la_plata = AdminUser.create!({username: "operador_lp", email: "operoperador_lpador@turno5.com", password: "password", password_confirmation: "password", branch_office_id: sucursal_la_plata.id}).add_role :staff
+puts "Roles cargados 🚀"
 
-operador_bancario_buenos_aires = AdminUser.create!({username: "operador_bsas", email: "operador_bsas@turno5.com", password: "password", password_confirmation: "password", branch_office_id: sucursal_buenos_aires.id}).add_role :staff
+administrador = AdminUser.create!({username: "admin", email: "admin@turno5.com", password: "password", password_confirmation: "password", roles: [Role.find_by(name: "admin")]})
 
-operador_bancario_rosario = AdminUser.create!({username: "operador_ros", email: "operador_ros@turno5.com", password: "password", password_confirmation: "password", branch_office_id: sucursal_rosario.id}).add_role :staff
+
+operador_bancario_la_plata = AdminUser.create!({username: "operador_lp", email: "operoperador_lpador@turno5.com", password: "password", password_confirmation: "password", branch_office_id: sucursal_la_plata.id, roles: [Role.find_by(name: "staff")]})
+
+operador_bancario_buenos_aires = AdminUser.create!({username: "operador_bsas", email: "operador_bsas@turno5.com", password: "password", password_confirmation: "password", branch_office_id: sucursal_buenos_aires.id, roles: [Role.find_by(name: "staff")]})
+
+operador_bancario_rosario = AdminUser.create!({username: "operador_ros", email: "operador_ros@turno5.com", password: "password", password_confirmation: "password", branch_office_id: sucursal_rosario.id, roles: [Role.find_by(name: "staff")]})
 
 puts "Empleados cargados 🚀"
 

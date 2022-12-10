@@ -71,6 +71,14 @@ ActiveAdmin.register Shift do
       end
     end
 
+    def show 
+      begin
+        super
+      rescue ActiveRecord::RecordNotFound
+        redirect_to admin_shifts_path, alert: "No se encontró el turno"
+      end
+    end
+
     def new
       redirect_to admin_shifts_path, alert: "Los turnos solamente los crea un cliente!"
     end
@@ -78,6 +86,15 @@ ActiveAdmin.register Shift do
     def create
       redirect_to admin_shifts_path, alert: "Los turnos solamente los crea un cliente!"
     end
+
+    def edit
+      if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id && (current_admin_user.has_role? :staff)
+        super
+      else
+        redirect_to admin_shifts_path, alert: "No tiene permisos para editar turnos de otras sucursales"
+      end
+    end
+
 
     def update
       if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id && (current_admin_user.has_role? :staff)

@@ -19,6 +19,7 @@ class Shift < ApplicationRecord
   validates :date, presence: true
   validates :branch_office, presence: true
   validates :user, presence: true
+  validates :reason, presence: true
 
   # Validaciones customs
   validate :hour_is_between_opening_and_closing_hours
