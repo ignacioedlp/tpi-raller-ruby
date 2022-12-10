@@ -62,11 +62,13 @@ es:
               blank: "No puede estar en blanco"
               taken: "Ya existe un empleado con esa sucursal"
             password: 
+              confirmation: "No coincide con la confirmación"
               blank: "No puede estar en blanco"
               too_short: "Debe tener al menos 6 caracteres"
               too_long: "Debe tener menos de 128 caracteres"
               invalid: "Debe contener al menos una letra y un número"
             password_confirmation:
+              confirmation: "No coincide con la confirmación"
               blank: "No puede estar en blanco"
               too_short: "Debe tener al menos 6 caracteres"
               too_long: "Debe tener menos de 128 caracteres"

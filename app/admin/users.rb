@@ -44,18 +44,18 @@ ActiveAdmin.register User do
 
   controller do
     def new
-      if current_admin_user.has_role? :admin
-        super
-      else
-        redirect_to admin_users_path, alert: "No tiene permisos para crear usuarios"
-      end
+      redirect_to admin_users_path, alert: "No se puede crear usuarios!"
     end
 
     def create
+      redirect_to admin_users_path, alert: "No se puede crear usuarios!"
+    end
+
+    def edit
       if current_admin_user.has_role? :admin
         super
       else
-        redirect_to admin_users_path, alert: "No tiene permisos para crear usuarios"
+        redirect_to admin_users_path, alert: "No tiene permisos para editar usuarios"
       end
     end
 

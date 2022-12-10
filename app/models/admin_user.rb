@@ -13,8 +13,15 @@ class AdminUser < ApplicationRecord
   validates :username, presence: true, uniqueness: {case_sensitive: false}
   validates :email, presence: true, uniqueness: {case_sensitive: false}
 
-  validate :must_have_a_role, on: :update
+  validate :must_have_a_role
   validate :if_is_staff_have_branch_office
+  validate :if_have_branch_office_must_be_staff
+
+  def if_have_branch_office_must_be_staff
+    if branch_office_id.present? && !has_role?(:staff)
+      errors.add(:branch_office_id, "Deberia de tener el rol de staff")
+    end
+  end
 
   def if_is_staff_have_branch_office
     if has_role?(:staff) && branch_office_id.nil?
