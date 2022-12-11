@@ -64,14 +64,13 @@ ActiveAdmin.register BranchOffice do
       end
     end
 
-    def new 
+    def new
       if current_admin_user.has_role? :admin
         super
       else
         redirect_to admin_branch_offices_path, alert: "No tiene permisos para crear sucursales"
       end
     end
-    
 
     def edit
       if current_admin_user.has_role? :admin

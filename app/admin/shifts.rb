@@ -71,12 +71,10 @@ ActiveAdmin.register Shift do
       end
     end
 
-    def show 
-      begin
-        super
-      rescue ActiveRecord::RecordNotFound
-        redirect_to admin_shifts_path, alert: "No se encontró el turno"
-      end
+    def show
+      super
+    rescue ActiveRecord::RecordNotFound
+      redirect_to admin_shifts_path, alert: "No se encontró el turno"
     end
 
     def new
@@ -94,7 +92,6 @@ ActiveAdmin.register Shift do
         redirect_to admin_shifts_path, alert: "No tiene permisos para editar turnos de otras sucursales"
       end
     end
-
 
     def update
       if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id && (current_admin_user.has_role? :staff)
