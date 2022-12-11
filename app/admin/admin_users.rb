@@ -67,7 +67,7 @@ ActiveAdmin.register AdminUser do
       end
     end
 
-    def new 
+    def new
       if current_admin_user.has_role? :admin
         super
       else
