@@ -146,9 +146,17 @@ La gran mayoria del codigo esta escrito en ingles, por la costumbre y facilidad 
   3. Sucursales
      - Ver sucursales
      - Ver datos
-  4. Turnos
-     - Ver mis turnos (solo autenticado)
-     - Ver un turno (solo autenticado)
-     - Modificar un turno ( solo autenticado y si no esta completado)
-     - Eliminar un turno ( solo autenticado y si no esta completado)
+  4. Turnos (solo autenticado)
+     - Ver mis turnos
+     - Ver un turno
+     - Modificar un turno (si no esta completado)
+     - Eliminar un turno (si no esta completado)
      - Sacar un turno (no se puede el mismo dias sacar mas de uno en la misma sucursal)
+     
+### Aclaraciones
+1. No se aclaro en el enunciado pero en cuanto a la eliminacion de un horario, quizas una opcion es cancelar o eliminar los turnos para ese dia. (No lo hice porque no lo aclararon).
+2. Las sucursales solo se pueden eliminar si no tiene turnos pendientes. En el caso de que se pueda, los turnos completados no tendran una sucursal asignada. Lo hice de esa manera para no perder el historial de turnos.
+3. Puede haber lugares donde la traduccion no este hecha. 
+4. Como no especificaban que acciones tenian los admin con los turnos, lo que hice es mostrar los turnos de todas las sucursales (para el caso de que sea un admin y no un staff), pero solamente las acciones de ver todos y los detalles de cada uno. Luego las acciones de eliminar, modificar no las puede hacer.
+5. Hice que puedan tener mas de un rol, porque me parecia mas logico de si a futuro, se necesitara de tener multiples roles y no uno solo.
+6. En cuanto a la modificacion de un cliente o empleado, la contraseña la hice de manera que con solo el campo contraseña se modifique, no puse la verificacion ni ingresar a la contraseña actual. Igualmente si quieren cambiar su contraseña un cliente o empleado lo puede hacer el mismo.
