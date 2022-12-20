@@ -160,3 +160,32 @@ La gran mayoria del codigo esta escrito en ingles, por la costumbre y facilidad 
 4. Como no especificaban que acciones tenian los admin con los turnos, lo que hice es mostrar los turnos de todas las sucursales (para el caso de que sea un admin y no un staff), pero solamente las acciones de ver todos y los detalles de cada uno. Luego las acciones de eliminar, modificar no las puede hacer.
 5. Hice que puedan tener mas de un rol, porque me parecia mas logico de si a futuro, se necesitara de tener multiples roles y no uno solo.
 6. En cuanto a la modificacion de un cliente o empleado, la contraseña la hice de manera que con solo el campo contraseña se modifique, no puse la verificacion ni ingresar a la contraseña actual. Igualmente si quieren cambiar su contraseña un cliente o empleado lo puede hacer el mismo.
+
+### NOTAS DE LA RE ENTREGA
+- [x]  Los seeds no terminan de cargar por un error de validación en los turnos.
+    
+    Solucion los turnos se los tiene que crear
+    
+- [x]  Los errores de validación al intentar sacar un turno obligan a comenzar de cero, y no se indican qué errores se encuentran. Tal como hablamos en el coloquio, para estas situaciones se suele volver a renderizar la vista anterior y así mostrar los errores en el formulario de carga junto con el valor que el usuario cargó para que pueda corregirlo sin tener que completar todo de nuevo.
+    
+    Los errores ahora se muestran, pero los datos no logro devolverlos, creo que es porque si o si al renderizar se crea un shift nuevo.
+    
+- [x]  Validaciones como las de Shift#comment_and_admin_user_are_present_if_completed se pueden expresar directamente con validadores de Rails:validates :comment, :admin_user, presence: true, if: :completed?
+    La validación de unicidad de horarios por día y sucursal no es correcta. Desde el CRUD de Horarios de atención puedo modificar un día de atención y repetir el día     (una vez creado).
+    
+    OpeningHour#day_is_unique es una reescritura del uniqueness validator: validates :day, uniqueness: { scope: :branch_office_id }.
+    
+    Corregido.
+    
+- [x]  La forma de gestionar los horarios de atención no es lo más amigable. Hubiera sido más claro que se gestionen directamente desde el CRUD de una sucursal. (No es necesario arreglar esto para la reentrega, aunque sería una linda mejora)
+    
+    -
+    
+- [x]  Al modificar un horario, se carga la página con el día incorrecto (siempre está seteado a Lunes, aunque esté modificando el horario para otro día de la semana).
+    
+    Arreglado ahora se muestra el dia correcto
+    
+- [x]  No encuentro cómo atender un turno, si es la modificación del turno no me parece adecuada porque muestra campos de más y me obliga a marcar manualmente como completado así como también cargarme como que fui yo quien lo atendió. Esto sí debe corregirse.
+    
+    Ahora se tiene la opcion de atender, el editar no existe mas, al guardar el turno se asigna como completado y el operador con la sesion iniciada, una vez completado el turno no se puede volver a hacer. Solo ver la informacion del turno.
+
