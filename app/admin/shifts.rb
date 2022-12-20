@@ -10,7 +10,7 @@ ActiveAdmin.register Shift do
   config.remove_action_item :edit
 
   action_item :edit, only: :show do
-    link_to "Editar turno", edit_admin_shift_path if current_admin_user.has_role? :staff
+    link_to "Atender turno", edit_admin_shift_path if resource.completed == false and current_admin_user.has_role? :staff
   end
 
   action_item :destroy, only: :show do
@@ -29,7 +29,7 @@ ActiveAdmin.register Shift do
     column :completed
     actions defaults: false do |shift|
       item "Ver", admin_shift_path(shift), class: "member_link"
-      item "Editar", edit_admin_shift_path(shift), class: "member_link" if current_admin_user.has_role? :staff
+      item "Atender", edit_admin_shift_path(shift), class: "member_link" if shift.completed == false and current_admin_user.has_role? :staff
       item "Eliminar", admin_shift_path(shift), method: :delete, data: {confirm: "¿Está seguro que desea eliminar este turno?"}, class: "member_link" if current_admin_user.has_role? :staff
     end
   end
@@ -87,7 +87,11 @@ ActiveAdmin.register Shift do
 
     def edit
       if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id && (current_admin_user.has_role? :staff)
-        super
+        if (Shift.find(params[:id]).completed == true)
+          redirect_to admin_shifts_path, alert: "El turno ya fue atendido"
+        else
+          super
+        end
       else
         redirect_to admin_shifts_path, alert: "No tiene permisos para editar turnos de otras sucursales"
       end
@@ -95,6 +99,12 @@ ActiveAdmin.register Shift do
 
     def update
       if current_admin_user.branch_office_id == Shift.find(params[:id]).branch_office_id && (current_admin_user.has_role? :staff)
+        params[:shift].delete(:user_id)
+        params[:shift].delete(:branch_office_id)
+        params[:shift].delete(:reason)
+        params[:shift].delete(:date)
+        params[:shift][:admin_user_id] = current_admin_user.id
+        params[:shift][:completed] = true
         super
       else
         redirect_to admin_shifts_path, alert: "No tiene permisos para actualizar turnos de otras sucursales"
@@ -112,12 +122,10 @@ ActiveAdmin.register Shift do
 
   form do |f|
     f.inputs do
-      f.input :branch_office
-      f.input :user
-      f.input :admin_user, collection: AdminUser.where(branch_office_id: f.object.branch_office_id), input_html: {value: current_admin_user.id}
-      f.input :date, as: :datetime_picker
-      f.input :reason
-      f.input :completed
+      f.input :branch_office, :input_html => { :disabled => true }
+      f.input :user, :input_html => { :disabled => true }
+      f.input :date, as: :datetime_picker, :input_html => { :disabled => true }
+      f.input :reason, :input_html => { :disabled => true }
       f.input :comment
     end
     f.actions

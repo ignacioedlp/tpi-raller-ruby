@@ -20,10 +20,10 @@ class Shift < ApplicationRecord
   validates :branch_office, presence: true
   validates :user, presence: true
   validates :reason, presence: true
+  validates :comment, :admin_user, presence: true, if: :completed?
 
   # Validaciones customs
   validate :hour_is_between_opening_and_closing_hours
-  validate :comment_and_admin_user_are_present_if_completed
   validate :the_user_has_no_shifts_at_the_same_time_in_the_same_day, on: :create
   validate :date_must_be_in_the_future
 
@@ -41,17 +41,6 @@ class Shift < ApplicationRecord
     if date.present? && user.present?
       if user.shifts.where(completed: false, branch_office_id: branch_office_id).find_by(date: date.beginning_of_day..date.end_of_day)
         errors.add(:date, "el usuario ya tiene un turno en ese día")
-      end
-    end
-  end
-
-  def comment_and_admin_user_are_present_if_completed
-    if completed == true
-      if comment.blank?
-        errors.add(:comment, "debe ingresar uno")
-      end
-      if admin_user.blank?
-        errors.add(:admin_user, "debe seleccionar un empleado")
       end
     end
   end

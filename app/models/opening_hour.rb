@@ -14,7 +14,7 @@ class OpeningHour < ApplicationRecord
   validates :opens, presence: true
   validates :closes, presence: true
   validates :branch_office, presence: true
-  validate :day_is_unique, on: :create
+  validates :day, uniqueness: { scope: :branch_office_id }
 
   enum day: {"Lunes" => 1,
              "Martes" => 2,
@@ -23,6 +23,10 @@ class OpeningHour < ApplicationRecord
              "Viernes" => 5,
              "Sábado" => 6,
              "Domingo" => 7}
+
+  def day_index
+    OpeningHour.days[day]
+  end
 
   def self.days_with_index_and_name_and_opens_and_closes(branch_office)
     days = []
@@ -38,9 +42,5 @@ class OpeningHour < ApplicationRecord
     days
   end
 
-  def day_is_unique
-    if branch_office&.opening_hours&.find_by(day: day)
-      errors.add(:day, "Ya existe un horario para este dia")
-    end
-  end
+
 end
