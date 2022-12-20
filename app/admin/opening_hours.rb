@@ -95,7 +95,7 @@ ActiveAdmin.register OpeningHour do
   form do |f|
     f.inputs do
       f.input :branch_office, as: :select, collection: BranchOffice.all, include_blank: false
-      f.input :day, as: :select, collection: OpeningHour::DAYS, selected: f.object.day, include_blank: false
+      f.input :day, as: :select, collection: OpeningHour::DAYS, include_blank: false, selected: f.object.day_index
       f.input :opens, as: :time_picker
       f.input :closes, as: :time_picker
     end

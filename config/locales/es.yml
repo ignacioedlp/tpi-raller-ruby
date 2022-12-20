@@ -22,6 +22,9 @@ es:
             admin_user:
               blank: "No puede estar en blanco"
               taken: "Ya existe un turno para ese empleado"
+            comment: 
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un turno para ese comentario"
         opening_hour:
           attributes:
             name:
@@ -36,6 +39,9 @@ es:
             branch_office:
               blank: "No puede estar en blanco"
               taken: "Ya existe un horario para esa sucursal"
+            day: 
+              blank: "No puede estar en blanco"
+              taken: "Ya existe un horario para ese día"
         branch_office:
           attributes:
             name:
@@ -140,7 +146,7 @@ es:
         reason: "Motivo"
         comment: "Comentario"
         admin_user: "Empleado"
-        completed: "Completado"
+        completed: "Atendido"
         created_at: "Fecha de creación"
         updated_at: "Fecha de actualización"
       branch_office:
@@ -183,7 +189,7 @@ es:
         day: "Dia"
         reason: "Motivo"
         admin_user: "Empleado"
-        completed: "Completado"
+        completed: "Atendido"
         created_at: "Fecha de creación"
         updated_at: "Fecha de actualización"
       active_admin/branch_office:

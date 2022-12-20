@@ -12,7 +12,11 @@ class ShiftsController < ApplicationController
 
   def new
     @branch_office = BranchOffice.find(params[:branch_office_id])
-    @shift = Shift.new
+    if params[:shift_id]
+      @shift = Shift.find(params[:shift_id])
+    else
+      @shift = Shift.new
+    end
   end
 
   def edit
@@ -30,7 +34,7 @@ class ShiftsController < ApplicationController
       if @shift.save
         format.html { redirect_to shift_url(@shift), notice: "Turno creado!" }
       else
-        format.html { redirect_to shifts_url, notice: "No se pudo crear el turno!" }
+        format.html { redirect_to new_shift_path(@branch_office), alert: @shift.errors.full_messages.to_s }
       end
     end
   end
@@ -40,7 +44,7 @@ class ShiftsController < ApplicationController
       if @shift.update(shift_params)
         format.html { redirect_to shift_url(@shift), notice: "Turno actualizado!" }
       else
-        format.html { redirect_to shifts_url, notice: "No se pudo actualizar el turno!" }
+        format.html { redirect_to new_shift_path(@branch_office), alert: @shift.errors.full_messages.to_s }
       end
     end
   end

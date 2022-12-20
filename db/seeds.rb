@@ -39,10 +39,4 @@ juan = User.create!({username: "juan", email: "juan@gmail.com", password: "passw
 
 puts "Clientes cargados 🚀"
 
-turno_1_ignacio = Shift.create!(date: "2022-12-12 10:00:00", branch_office_id: sucursal_la_plata.id, user_id: ignacio.id, reason: "Retiro de dinero")
-turno_1_agus = Shift.create!(date: "2022-12-12 10:00:00", branch_office_id: sucursal_buenos_aires.id, user_id: agus.id, reason: "Problema con la tarjeta")
-turno_1_juan = Shift.create!(date: "2022-12-12 10:00:00", branch_office_id: sucursal_rosario.id, user_id: juan.id, reason: "Problema con la cuenta")
-
-puts "Turnos cargados pendientes 🚀"
-
 puts "Seeds cargados 🚀"
